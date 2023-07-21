@@ -11,12 +11,18 @@ const App = () => {
   const [guesses, setGuesses] = useState<ILanguage[]>([]);
   const methods = useForm();
   const { handleSubmit, register, reset } = methods;
-  const solution = {
-    name: "Ruby",
-    creator: "Yukihiro Matsumoto",
-    releaseYear: 1995,
+  const solution: {
+    name: string;
+    creator: string | string[];
+    releaseYear: number | string;
+    compiled: boolean;
+    objectOriented: boolean;
+  } = {
+    name: "F#",
+    creator: ["Don Syme", "Microsoft Research"],
+    releaseYear: 2005,
     compiled: false,
-    objectOriented: true,
+    objectOriented: false,
   };
 
   const onSubmit = handleSubmit((values) => {
@@ -35,6 +41,60 @@ const App = () => {
       setGameOver(true);
     }
   });
+
+  const getClass = (
+    guess: string | string[] | number | boolean,
+    type: string
+  ) => {
+    if (guess === "No data") {
+      return "text-yellow-300";
+    }
+
+    switch (type) {
+      case "name":
+        return guess === solution.name ? "text-green-300" : "text-red-300";
+      case "creator":
+        if (typeof guess === "string" && typeof solution.creator === "string") {
+          return guess === solution.creator ? "text-green-300" : "text-red-300";
+        } else if (
+          typeof guess === "string" &&
+          typeof solution.creator === "object"
+        ) {
+          return solution.creator.includes(guess)
+            ? "text-yellow-300"
+            : "text-red-300";
+        } else if (
+          typeof guess === "object" &&
+          typeof solution.creator === "object"
+        ) {
+          let output = [];
+          for (let i = 0; i < guess.length; i++) {
+            if (solution.creator.includes(guess[i])) {
+              output.push(guess[i]);
+            }
+          }
+          return output.length ? "text-yellow-300" : "text-red-300";
+        } else if (
+          typeof guess === "object" &&
+          typeof solution.creator === "string"
+        ) {
+          return guess.includes(solution.creator)
+            ? "text-yellow-300"
+            : "text-red-300";
+        }
+
+      case "year":
+        return guess === solution.releaseYear
+          ? "text-green-300"
+          : "text-red-300";
+      case "compiled":
+        return guess === solution.compiled ? "text-green-300" : "text-red-300";
+      case "object":
+        return guess === solution.objectOriented
+          ? "text-green-300"
+          : "text-red-300";
+    }
+  };
 
   return (
     <Div100vh>
@@ -72,54 +132,28 @@ const App = () => {
                 <th>Name</th>
                 <th>Creator(s)</th>
                 <th>Release Year</th>
-                <th>Interpreted</th>
+                <th>Compiled</th>
                 <th>Object Oriented</th>
               </tr>
             </thead>
             <tbody>
               {guesses.map((guess, index) => (
                 <tr key={index}>
-                  <td
-                    className={
-                      guess.name === solution.name
-                        ? "text-green-300"
-                        : "text-red-300"
-                    }
-                  >
-                    {guess.name}
-                  </td>
+                  <td className={getClass(guess.name, "name")}>{guess.name}</td>
                   <td className="p-2">
-                    {typeof guess.creator === "object"
-                      ? guess.creator.map((creator) => <p>{creator}</p>)
-                      : guess.creator}
+                    <div className={getClass(guess.creator, "creator")}>
+                      {typeof guess.creator === "object"
+                        ? guess.creator.map((creator) => <p>{creator}</p>)
+                        : guess.creator}
+                    </div>
                   </td>
-                  <td
-                    className={
-                      guess.releaseYear === solution.releaseYear
-                        ? "text-green-300"
-                        : guess.releaseYear === "No data"
-                        ? "text-yellow-300"
-                        : "text-red-300"
-                    }
-                  >
+                  <td className={getClass(guess.releaseYear, "year")}>
                     {guess.releaseYear}
                   </td>
-                  <td
-                    className={
-                      guess.compiled === solution.compiled
-                        ? "text-green-300"
-                        : "text-red-300"
-                    }
-                  >
+                  <td className={getClass(guess.compiled, "compiled")}>
                     {guess.compiled ? "True" : "False"}
                   </td>
-                  <td
-                    className={
-                      guess.objectOriented === solution.objectOriented
-                        ? "text-green-300"
-                        : "text-red-300"
-                    }
-                  >
+                  <td className={getClass(guess.objectOriented, "object")}>
                     {guess.objectOriented ? "True" : "False"}
                   </td>
                 </tr>
@@ -128,7 +162,6 @@ const App = () => {
           </table>
           {isGameWon && (
             <div className="text-center">
-              <h1>YOU WON!</h1>
               <h1>The correct answer was {solution.name}!</h1>
               <h1>
                 You solved it with {totalGuesses - guesses.length} guesses
@@ -138,7 +171,6 @@ const App = () => {
           )}
           {isGameOver && (
             <div className="text-center">
-              <h1>YOU LOST!</h1>
               <h1>The correct answer was {solution.name}!</h1>
             </div>
           )}
