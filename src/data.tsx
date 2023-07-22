@@ -1,4 +1,4 @@
-export interface ILanguage {
+export interface DataItem {
   name: string;
   creator: string | string[];
   releaseYear: number | string;

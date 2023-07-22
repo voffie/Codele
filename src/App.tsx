@@ -2,42 +2,58 @@ import Div100vh from "react-div-100vh";
 import { Navbar } from "./components/Header";
 import { FormProvider, useForm } from "react-hook-form";
 import { useState } from "react";
-import { ILanguage, getGuessData } from "./data";
+import { DataItem, getGuessData } from "./data";
+import { fetchLocalStorage, writeLocalStorage } from "./lib/localStorage";
 
 const App = () => {
-  const totalGuesses = 5;
-  const [isGameWon, setGameWon] = useState(false);
-  const [isGameOver, setGameOver] = useState(false);
-  const [guesses, setGuesses] = useState<ILanguage[]>([]);
-  const methods = useForm();
-  const { handleSubmit, register, reset } = methods;
-  const solution: {
-    name: string;
-    creator: string | string[];
-    releaseYear: number | string;
-    compiled: boolean;
-    objectOriented: boolean;
-  } = {
+  const solution: DataItem = {
     name: "F#",
     creator: ["Don Syme", "Microsoft Research"],
     releaseYear: 2005,
     compiled: false,
     objectOriented: false,
   };
+  const totalGuesses = 5;
+  const [isGameWon, setGameWon] = useState(false);
+  const [isGameOver, setGameOver] = useState(false);
+  const [guesses, setGuesses] = useState<DataItem[]>(() => {
+    const loaded = fetchLocalStorage();
+    if (loaded?.solution.name !== solution.name) {
+      return [];
+    }
+
+    const gameWasWon = loaded.guesses.some(
+      (element) => element.name === solution.name
+    );
+    if (gameWasWon) {
+      setGameWon(true);
+    } else if (loaded.guesses.length === 5) {
+      setGameOver(true);
+    }
+    return loaded.guesses;
+  });
+
+  const methods = useForm();
+  const { handleSubmit, register, reset } = methods;
 
   const onSubmit = handleSubmit((values) => {
-    const info = getGuessData(values.currentGuess);
-    if (!info) {
+    const currentData = getGuessData(values.currentGuess);
+    if (!currentData) {
       reset();
       return null;
     }
-    setGuesses((old) => [...old, info]);
+    setGuesses((old) => [...old, currentData]);
 
     reset();
 
-    if (info.name === solution.name) {
+    writeLocalStorage({
+      solution: solution,
+      guesses: [...guesses, currentData],
+    });
+
+    if (currentData.name === solution.name) {
       setGameWon(true);
-    } else if (guesses.length === 4 && info.name !== solution.name) {
+    } else if (guesses.length === 4 && currentData.name !== solution.name) {
       setGameOver(true);
     }
   });
@@ -46,10 +62,6 @@ const App = () => {
     guess: string | string[] | number | boolean,
     type: string
   ) => {
-    if (guess === "No data") {
-      return "text-yellow-300";
-    }
-
     switch (type) {
       case "name":
         return guess === solution.name ? "text-green-300" : "text-red-300";
@@ -72,6 +84,9 @@ const App = () => {
             if (solution.creator.includes(guess[i])) {
               output.push(guess[i]);
             }
+          }
+          if (output.length === solution.creator.length) {
+            return "text-green-300";
           }
           return output.length ? "text-yellow-300" : "text-red-300";
         } else if (
@@ -106,7 +121,7 @@ const App = () => {
             <h1>
               The aim of the game is to guess the right programming language
             </h1>
-            <p>FYI: Not all languages are added at this moment</p>
+            <p>FYI: Not all languages are added at the current moment</p>
             <h1>You have {totalGuesses - guesses.length} guesses remaining</h1>
           </div>
           <FormProvider {...methods}>
@@ -143,7 +158,9 @@ const App = () => {
                   <td className="p-2">
                     <div className={getClass(guess.creator, "creator")}>
                       {typeof guess.creator === "object"
-                        ? guess.creator.map((creator) => <p>{creator}</p>)
+                        ? guess.creator.map((creator) => (
+                            <p key={creator}>{creator}</p>
+                          ))
                         : guess.creator}
                     </div>
                   </td>
