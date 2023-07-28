@@ -6,6 +6,17 @@ export interface DataItem {
   objectOriented: boolean;
 }
 
+export const generateSolution = async () => {
+  const date = new Date();
+  const hash = await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(
+      `${date.getUTCDate()} ${date.getUTCMonth()} ${date.getUTCFullYear()}`
+    )
+  );
+  return languages[new Uint16Array(hash)[0] % languages.length];
+};
+
 export const getGuessData = (guess: string) => {
   return languages.find(
     (item) => item.name.toLowerCase() === guess.toLowerCase()

@@ -1,7 +1,6 @@
-import { DataItem } from "data";
+import { DataItem } from "./data";
 
 export type StoredState = {
-  solution: DataItem;
   guesses: DataItem[];
 };
 

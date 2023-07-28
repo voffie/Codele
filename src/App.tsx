@@ -1,36 +1,33 @@
 import Div100vh from "react-div-100vh";
+import { useEffect } from "react";
 import { Navbar } from "./components/Header";
 import { FormProvider, useForm } from "react-hook-form";
 import { useState } from "react";
-import { DataItem, getGuessData } from "./data";
+import { DataItem, generateSolution, getGuessData } from "./lib/data";
 import { fetchLocalStorage, writeLocalStorage } from "./lib/localStorage";
 
 const App = () => {
-  const solution: DataItem = {
-    name: "F#",
-    creator: ["Don Syme", "Microsoft Research"],
-    releaseYear: 2005,
-    compiled: false,
-    objectOriented: false,
-  };
+  const [solution, setSolution] = useState<DataItem>();
+  useEffect(() => {
+    generateSolution().then((res) => setSolution(res));
+  }, []);
+
+  const [error, setError] = useState("");
   const totalGuesses = 5;
   const [isGameWon, setGameWon] = useState(false);
   const [isGameOver, setGameOver] = useState(false);
   const [guesses, setGuesses] = useState<DataItem[]>(() => {
     const loaded = fetchLocalStorage();
-    if (loaded?.solution.name !== solution.name) {
-      return [];
-    }
 
-    const gameWasWon = loaded.guesses.some(
-      (element) => element.name === solution.name
+    const gameWasWon = loaded?.guesses.some(
+      (element) => element.name === solution?.name
     );
     if (gameWasWon) {
       setGameWon(true);
-    } else if (loaded.guesses.length === 5) {
+    } else if (loaded?.guesses.length === 5) {
       setGameOver(true);
     }
-    return loaded.guesses;
+    return loaded?.guesses ? loaded.guesses : [];
   });
 
   const methods = useForm();
@@ -38,22 +35,27 @@ const App = () => {
 
   const onSubmit = handleSubmit((values) => {
     const currentData = getGuessData(values.currentGuess);
-    if (!currentData) {
+    if (!solution) {
       reset();
       return null;
     }
+    if (!currentData) {
+      reset();
+      setError(`Unknown value "${values.currentGuess}"`);
+      return null;
+    }
+    setError("");
     setGuesses((old) => [...old, currentData]);
 
     reset();
 
     writeLocalStorage({
-      solution: solution,
       guesses: [...guesses, currentData],
     });
 
-    if (currentData.name === solution.name) {
+    if (currentData.name === solution?.name) {
       setGameWon(true);
-    } else if (guesses.length === 4 && currentData.name !== solution.name) {
+    } else if (guesses.length === 4 && currentData.name !== solution?.name) {
       setGameOver(true);
     }
   });
@@ -64,20 +66,25 @@ const App = () => {
   ) => {
     switch (type) {
       case "name":
-        return guess === solution.name ? "text-green-300" : "text-red-300";
+        return guess === solution?.name ? "text-green-300" : "text-red-300";
       case "creator":
-        if (typeof guess === "string" && typeof solution.creator === "string") {
-          return guess === solution.creator ? "text-green-300" : "text-red-300";
+        if (
+          typeof guess === "string" &&
+          typeof solution?.creator === "string"
+        ) {
+          return guess === solution?.creator
+            ? "text-green-300"
+            : "text-red-300";
         } else if (
           typeof guess === "string" &&
-          typeof solution.creator === "object"
+          typeof solution?.creator === "object"
         ) {
           return solution.creator.includes(guess)
             ? "text-yellow-300"
             : "text-red-300";
         } else if (
           typeof guess === "object" &&
-          typeof solution.creator === "object"
+          typeof solution?.creator === "object"
         ) {
           let output = [];
           for (let i = 0; i < guess.length; i++) {
@@ -91,7 +98,7 @@ const App = () => {
           return output.length ? "text-yellow-300" : "text-red-300";
         } else if (
           typeof guess === "object" &&
-          typeof solution.creator === "string"
+          typeof solution?.creator === "string"
         ) {
           return guess.includes(solution.creator)
             ? "text-yellow-300"
@@ -99,24 +106,26 @@ const App = () => {
         }
 
       case "year":
-        return guess === solution.releaseYear
+        return guess === solution?.releaseYear
           ? "text-green-300"
           : "text-red-300";
       case "compiled":
-        return guess === solution.compiled ? "text-green-300" : "text-red-300";
+        return guess === solution?.compiled ? "text-green-300" : "text-red-300";
       case "object":
-        return guess === solution.objectOriented
+        return guess === solution?.objectOriented
           ? "text-green-300"
           : "text-red-300";
     }
   };
 
+  console.log(solution);
+
   return (
     <Div100vh>
       <div className="flex h-full flex-col bg-black overflow-hidden">
         <Navbar />
-        <div className="flex flex-col gap-5 h-full w-full text-white terminal">
-          <div className="m-2">
+        <div className="flex flex-col gap-5 h-full w-full text-white terminal m-2">
+          <div>
             <h1>Welcome to Codele!</h1>
             <h1>
               The aim of the game is to guess the right programming language
@@ -125,10 +134,7 @@ const App = () => {
             <h1>You have {totalGuesses - guesses.length} guesses remaining</h1>
           </div>
           <FormProvider {...methods}>
-            <form
-              onSubmit={onSubmit}
-              className="m-2"
-            >
+            <form onSubmit={onSubmit}>
               <div className="flex gap-2">
                 <h1>$ guest@codele.dev</h1>
                 <input
@@ -141,6 +147,7 @@ const App = () => {
               </div>
             </form>
           </FormProvider>
+          {error && <h1 className="text-red-300">{error}</h1>}
           <table className="border border-white-400 text-center">
             <thead>
               <tr>
@@ -179,7 +186,7 @@ const App = () => {
           </table>
           {isGameWon && (
             <div className="text-center">
-              <h1>The correct answer was {solution.name}!</h1>
+              <h1>The correct answer was {solution?.name}!</h1>
               <h1>
                 You solved it with {totalGuesses - guesses.length} guesses
                 remaining
@@ -188,7 +195,7 @@ const App = () => {
           )}
           {isGameOver && (
             <div className="text-center">
-              <h1>The correct answer was {solution.name}!</h1>
+              <h1>The correct answer was {solution?.name}!</h1>
             </div>
           )}
         </div>
