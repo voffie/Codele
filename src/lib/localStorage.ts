@@ -2,6 +2,7 @@ import { DataItem } from "./data";
 
 export type StoredState = {
   guesses: DataItem[];
+  date: string;
 };
 
 export const fetchLocalStorage = () => {

@@ -1,10 +1,10 @@
 import Div100vh from "react-div-100vh";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Navbar } from "./components/Header";
 import { FormProvider, useForm } from "react-hook-form";
-import { useState } from "react";
 import { DataItem, generateSolution, getGuessData } from "./lib/data";
 import { fetchLocalStorage, writeLocalStorage } from "./lib/localStorage";
+import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
 
 const App = () => {
   const [solution, setSolution] = useState<DataItem>();
@@ -48,9 +48,11 @@ const App = () => {
     setGuesses((old) => [...old, currentData]);
 
     reset();
+    const date = new Date();
 
     writeLocalStorage({
       guesses: [...guesses, currentData],
+      date: `${date.getUTCDate()} ${date.getUTCMonth()} ${date.getUTCFullYear()}`,
     });
 
     if (currentData.name === solution?.name) {
@@ -118,8 +120,6 @@ const App = () => {
     }
   };
 
-  console.log(solution);
-
   return (
     <Div100vh>
       <div className="flex h-full flex-col bg-black overflow-hidden">
@@ -128,7 +128,7 @@ const App = () => {
           <div>
             <h1>Welcome to Codele!</h1>
             <h1>
-              The aim of the game is to guess the right programming language
+              The aim of the game is to guess the right programming language!
             </h1>
             <p>FYI: Not all languages are added at the current moment</p>
             <h1>You have {totalGuesses - guesses.length} guesses remaining</h1>
@@ -172,7 +172,22 @@ const App = () => {
                     </div>
                   </td>
                   <td className={getClass(guess.releaseYear, "year")}>
-                    {guess.releaseYear}
+                    {solution?.releaseYear &&
+                      guess.releaseYear < solution?.releaseYear && (
+                        <div>
+                          {guess.releaseYear}
+                          <AiOutlineArrowUp className="inline ml-4" />
+                        </div>
+                      )}
+                    {solution?.releaseYear &&
+                      guess.releaseYear > solution?.releaseYear && (
+                        <div>
+                          {guess.releaseYear}
+                          <AiOutlineArrowDown className="inline ml-4" />
+                        </div>
+                      )}
+                    {guess.releaseYear === solution?.releaseYear &&
+                      guess.releaseYear}
                   </td>
                   <td className={getClass(guess.compiled, "compiled")}>
                     {guess.compiled ? "True" : "False"}

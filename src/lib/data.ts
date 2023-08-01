@@ -1,3 +1,5 @@
+import { fetchLocalStorage } from "./localStorage";
+
 export interface DataItem {
   name: string;
   creator: string | string[];
@@ -7,6 +9,7 @@ export interface DataItem {
 }
 
 export const generateSolution = async () => {
+  const userData = fetchLocalStorage();
   const date = new Date();
   const hash = await crypto.subtle.digest(
     "SHA-256",
@@ -14,6 +17,12 @@ export const generateSolution = async () => {
       `${date.getUTCDate()} ${date.getUTCMonth()} ${date.getUTCFullYear()}`
     )
   );
+  if (
+    userData?.date !==
+    `${date.getUTCDate()} ${date.getUTCMonth()} ${date.getUTCFullYear()}`
+  ) {
+    localStorage.clear();
+  }
   return languages[new Uint16Array(hash)[0] % languages.length];
 };
 
