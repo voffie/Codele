@@ -76,6 +76,13 @@ const languages = [
     objectOriented: true,
   },
   {
+    name: "C",
+    creator: "Dennis Ritchie",
+    releaseYear: 1972,
+    compiled: true,
+    objectOriented: false,
+  },
+  {
     name: "Carbon",
     creator: "Google",
     releaseYear: "No data",
