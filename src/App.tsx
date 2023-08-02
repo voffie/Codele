@@ -44,6 +44,15 @@ const App = () => {
       setError(`Unknown value "${values.currentGuess}"`);
       return null;
     }
+    if (
+      guesses.some(
+        (guess) =>
+          guess.name.toLowerCase() === values.currentGuess.toLowerCase()
+      )
+    ) {
+      reset();
+      return null;
+    }
     setError("");
     setGuesses((old) => [...old, currentData]);
 
