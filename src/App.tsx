@@ -131,20 +131,20 @@ const App = () => {
 
   return (
     <Div100vh>
-      <div className="flex h-full flex-col bg-black overflow-hidden">
+      <main className="flex h-full flex-col bg-black overflow-hidden">
         <Navbar />
-        <div className="flex flex-col gap-5 h-full w-full text-white terminal m-2">
-          <div>
+        <section className="flex flex-col gap-5 h-full w-full text-white terminal m-2">
+          <article>
             <h1>Welcome to Codele!</h1>
             <h1>
               The aim of the game is to guess the right programming language!
             </h1>
             <p>FYI: Not all languages are added at the current moment</p>
             <h1>You have {totalGuesses - guesses.length} guesses remaining</h1>
-          </div>
+          </article>
           <FormProvider {...methods}>
             <form onSubmit={onSubmit}>
-              <div className="flex gap-2">
+              <section className="flex gap-2">
                 <h1>$ guest@codele.dev</h1>
                 <input
                   autoFocus
@@ -153,7 +153,7 @@ const App = () => {
                   className="appearance-none bg-transparent focus:outline-none selection:bg-white selection:text-black"
                   {...register("currentGuess")}
                 />
-              </div>
+              </section>
             </form>
           </FormProvider>
           {error && <h1 className="text-red-300">{error}</h1>}
@@ -172,28 +172,28 @@ const App = () => {
                 <tr key={index}>
                   <td className={getClass(guess.name, "name")}>{guess.name}</td>
                   <td className="p-2">
-                    <div className={getClass(guess.creator, "creator")}>
+                    <article className={getClass(guess.creator, "creator")}>
                       {typeof guess.creator === "object"
                         ? guess.creator.map((creator) => (
                             <p key={creator}>{creator}</p>
                           ))
                         : guess.creator}
-                    </div>
+                    </article>
                   </td>
                   <td className={getClass(guess.releaseYear, "year")}>
                     {solution?.releaseYear &&
                       guess.releaseYear < solution?.releaseYear && (
-                        <div>
+                        <article>
                           {guess.releaseYear}
                           <AiOutlineArrowUp className="inline ml-4" />
-                        </div>
+                        </article>
                       )}
                     {solution?.releaseYear &&
                       guess.releaseYear > solution?.releaseYear && (
-                        <div>
+                        <article>
                           {guess.releaseYear}
                           <AiOutlineArrowDown className="inline ml-4" />
-                        </div>
+                        </article>
                       )}
                     {guess.releaseYear === solution?.releaseYear &&
                       guess.releaseYear}
@@ -209,21 +209,21 @@ const App = () => {
             </tbody>
           </table>
           {isGameWon && (
-            <div className="text-center">
+            <section className="text-center">
               <h1>The correct answer was {solution?.name}!</h1>
               <h1>
                 You solved it with {totalGuesses - guesses.length} guesses
                 remaining
               </h1>
-            </div>
+            </section>
           )}
           {isGameOver && (
-            <div className="text-center">
+            <section className="text-center">
               <h1>The correct answer was {solution?.name}!</h1>
-            </div>
+            </section>
           )}
-        </div>
-      </div>
+        </section>
+      </main>
     </Div100vh>
   );
 };
