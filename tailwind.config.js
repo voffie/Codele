@@ -1,9 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
   darkMode: "class",
-  content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        short: { raw: "(max-height: 650px)" },
+        xshort: { raw: "(max-height: 560px)" },
+        xxshort: { raw: "(max-height: 490px)" },
+      },
+    },
   },
-  plugins: [],
 };
