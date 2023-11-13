@@ -92,7 +92,10 @@ const App = () => {
 
   useEffect(() => {
     if (isGameWon) {
-      showSuccessAlert("Congrats!", {
+      const winMessages = ["Great Job!", "Awesome", "Well done!", "Congrats!"];
+      const winMessage =
+        winMessages[Math.floor(Math.random() * winMessages.length)];
+      showSuccessAlert(winMessage, {
         delayMs: 1000,
         onClose: () => setIsStatsModalOpen(true),
       });
