@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html.dark {
+  background-color: black;
+}
+
 *,
 html {
   margin: 0;
@@ -11,4 +15,13 @@ html {
 
 .terminal {
   font-family: Hack, monospace;
+}
+
+p,
+h1,
+h2,
+h3,
+table,
+input {
+  color: white;
 }
