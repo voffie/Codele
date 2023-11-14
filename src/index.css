@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-html.dark {
-  background-color: black;
-}
-
 *,
 html {
   margin: 0;

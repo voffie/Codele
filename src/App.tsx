@@ -22,10 +22,6 @@ import { generateStats, loadStats } from "./lib/stats";
 import { StatsModal } from "./components/Modals/StatsModal";
 
 const App = () => {
-  const prefersDarkMode = window.matchMedia(
-    "(prefers-color-scheme: dark)"
-  ).matches;
-
   const { showError: showErrorAlert, showSuccess: showSuccessAlert } =
     useAlert();
   const [isGameWon, setIsGameWon] = useState(false);
@@ -33,13 +29,6 @@ const App = () => {
   const [isStatsModalOpen, setIsStatsModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isGameLost, setIsGameLost] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(
-    localStorage.getItem("theme")
-      ? localStorage.getItem("theme") === "dark"
-      : prefersDarkMode
-      ? true
-      : false
-  );
   const [guesses, setGuesses] = useState<Language[]>(() => {
     const loaded = fetchGameFromLocalStorage();
     if (loaded?.solution.name !== solution.name) {
@@ -69,19 +58,6 @@ const App = () => {
       }, 350);
     }
   });
-
-  useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [isDarkMode]);
-
-  const handleDarkMode = (isDark: boolean) => {
-    setIsDarkMode(isDark);
-    localStorage.setItem("theme", isDark ? "dark" : "light");
-  };
 
   useEffect(() => {
     writeGameToLocalStorage({
@@ -168,7 +144,7 @@ const App = () => {
 
   return (
     <Div100vh>
-      <div className="flex h-full flex-col">
+      <div className="flex h-full flex-col bg-black">
         <Navbar
           setIsInfoModalOpen={setIsInfoModalOpen}
           setIsSettingsModalOpen={setIsSettingsModalOpen}
@@ -235,7 +211,7 @@ const App = () => {
                 </tbody>
               </table>
             )}
-            <p className="mt-6 text-sm italic text-gray-500 dark:text-gray-300 text-center">
+            <p className="mt-6 text-sm italic text-gray-300 text-center">
               Made by{" "}
               <a
                 href="https://github.com/voffiedev"
@@ -266,7 +242,6 @@ const App = () => {
                 { durationMs: 10000 }
               )
             }
-            isDarkMode={isDarkMode}
             numberOfGuessesMade={guesses.length}
           />
           <SettingsModal

@@ -12,7 +12,7 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
       isOpen={isOpen}
       handleClose={handleClose}
     >
-      <p className="text-sm text-gray-500 dark:text-gray-300">
+      <p className="text-sm text-gray-300">
         Guess the language in 5 tries. After each guess, the color of the text
         will change depending on how close your guess was to the word.
       </p>
@@ -37,7 +37,7 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
           </tbody>
         </table>
       </div>
-      <p className="text-sm text-gray-500 dark:text-gray-300">
+      <p className="text-sm text-gray-300">
         In the example above all parts are correct
       </p>
 
@@ -61,7 +61,7 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
           </tbody>
         </table>
       </div>
-      <p className="text-sm text-gray-500 dark:text-gray-300">
+      <p className="text-sm text-gray-300">
         In the example above some, but not all parts are correct
       </p>
 
@@ -85,11 +85,11 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
           </tbody>
         </table>
       </div>
-      <p className="text-sm text-gray-500 dark:text-gray-300">
+      <p className="text-sm text-gray-300">
         In the example above none of the parts are correct
       </p>
 
-      <p className="mt-6 text-sm italic text-gray-500 dark:text-gray-300">
+      <p className="mt-6 text-sm italic text-gray-300">
         Made by{" "}
         <a
           href="https://github.com/voffiedev"

@@ -24,26 +24,26 @@ export const Navbar = ({
       <section className="flex">
         <article className="w-5 h-5 rounded-[50%] mr-[20px] bg-[#FF5D5B] flex items-center justify-center">
           <AiOutlineClose
-            className="h-4 w-4 cursor-pointer dark:stroke-white"
+            className="h-4 w-4 cursor-pointer stroke-white"
             onClick={closeTab}
           />
         </article>
         <article className="w-5 h-5 rounded-[50%] mr-[20px] bg-[#FFBB39] flex items-center justify-center">
           <AiOutlineInfo
-            className="h-4 w-4 cursor-pointer dark:stroke-white"
+            className="h-4 w-4 cursor-pointer stroke-white"
             onClick={() => setIsInfoModalOpen(true)}
           />
         </article>
         <article className="w-5 h-5 rounded-[50%] mr-[20px] bg-[#00CD4E] flex items-center justify-center">
           <BiCog
-            className="h-4 w-4 cursor-pointer dark:stroke-white"
+            className="h-4 w-4 cursor-pointer stroke-white"
             onClick={() => setIsSettingsModalOpen(true)}
           />
         </article>
       </section>
       <h1 className="text-black">Codele</h1>
       <BiBarChartAlt2
-        className="h-6 w-6 cursor-pointer dark:stroke-white"
+        className="h-6 w-6 cursor-pointer stroke-white"
         onClick={() => setIsStatsModalOpen(true)}
       />
     </header>
