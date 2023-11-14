@@ -18,7 +18,6 @@ type Props = {
   isGameWon: boolean;
   handleShareToClipboard: () => void;
   handleShareFailure: () => void;
-  isDarkMode: boolean;
   numberOfGuessesMade: number;
 };
 
@@ -32,7 +31,6 @@ export const StatsModal = ({
   isGameWon,
   handleShareToClipboard,
   handleShareFailure,
-  isDarkMode,
   numberOfGuessesMade,
 }: Props) => {
   if (gameStats.totalGames <= 0) {
@@ -53,7 +51,7 @@ export const StatsModal = ({
       handleClose={handleClose}
     >
       <StatBar gameStats={gameStats} />
-      <h4 className="text-lg font-medium leading-6 text-gray-900 dark:text-gray-100">
+      <h4 className="text-lg font-medium leading-6 text-gray-100">
         Guess Distribution
       </h4>
       <Histogram
@@ -62,11 +60,11 @@ export const StatsModal = ({
         numberOfGuessesMade={numberOfGuessesMade}
       />
       {(isGameLost || isGameWon) && (
-        <div className="mt-5 columns-2 items-center justify-center text-center dark:text-white sm:mt-6">
+        <div className="mt-5 columns-2 items-center justify-center text-center text-white sm:mt-6">
           <div className="inline-block w-full text-left">
             <h5>New word in</h5>
             <Countdown
-              className="text-lg font-medium text-gray-900 dark:text-gray-100"
+              className="text-lg font-medium text-gray-100"
               date={tomorrow}
               daysInHours={true}
             />
@@ -85,7 +83,7 @@ export const StatsModal = ({
                 );
               }}
             >
-              <AiOutlineShareAlt className="mr-2 h-6 w-6 cursor-pointer dark:stroke-white" />
+              <AiOutlineShareAlt className="mr-2 h-6 w-6 cursor-pointer stroke-white" />
               Share
             </button>
           </div>

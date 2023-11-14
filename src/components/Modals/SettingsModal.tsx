@@ -1,5 +1,5 @@
 import { BaseModal } from "./BaseModal";
-import { SettingsToggle } from "./SettingsToggle";
+/* import { SettingsToggle } from "./SettingsToggle"; */
 
 type SettingsProps = {
   isOpen: boolean;
@@ -14,13 +14,14 @@ export const SettingsModal = ({ isOpen, handleClose }: SettingsProps) => {
       handleClose={handleClose}
     >
       <div className="mt-2 flex flex-col divide-y">
-        <SettingsToggle
+        {/*         <SettingsToggle
           settingName="Unkown"
           flag={false}
           handleFlag={() => console.log("Decide on settings")}
-        />
+        /> */}
+        <p>Not implemented yet</p>
       </div>
-      <p className="mt-6 text-sm italic text-gray-500 dark:text-gray-300">
+      <p className="mt-6 text-sm italic text-gray-300">
         Made by{" "}
         <a
           href="https://github.com/voffiedev"
