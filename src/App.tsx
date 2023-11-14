@@ -89,7 +89,7 @@ const App = () => {
 
   const currentGuess = watch("currentGuess");
 
-  const onSubmit = handleSubmit((values) => {
+  const onSubmit = handleSubmit(() => {
     if (isGameWon || isGameLost) {
       return;
     }
@@ -157,6 +157,7 @@ const App = () => {
                 <section className="flex gap-2">
                   <h1>$ guest@codele.dev</h1>
                   <input
+                    aria-label="Guess field"
                     autoFocus
                     type="text"
                     disabled={isGameLost || isGameWon}
