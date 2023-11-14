@@ -1,6 +1,5 @@
 import { AiOutlineInfo, AiOutlineClose } from "react-icons/ai";
-import { BiBarChartAlt2 } from "react-icons/bi";
-import { BiCog } from "react-icons/bi";
+import { BiBarChartAlt2, BiCog } from "react-icons/bi";
 
 type NavbarProps = {
   setIsInfoModalOpen: (value: boolean) => void;
