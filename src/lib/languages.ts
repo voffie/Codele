@@ -22,7 +22,7 @@ export const isLanguageInLanguageList = (language: string) => {
 };
 
 export const isWinningLanguage = (language: string) => {
-  return solution.name === language;
+  return solution.name.toLowerCase() === language.toLowerCase();
 };
 
 export const getGuessData = (guess: string) => {
