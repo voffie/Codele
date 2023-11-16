@@ -15,7 +15,6 @@ export const getGuessStatuses = (
       statuses[i] = "wrong";
       solutionCharsTaken[i] = false;
     } else {
-      console.log(key);
       statuses[i] = "correct";
       solutionCharsTaken[i] = true;
       return;
