@@ -98,7 +98,7 @@ export const LANGUAGES = [
   {
     name: "JavaScript",
     releaseYear: 1995,
-    compiled: true,
+    compiled: false,
     objectOriented: true,
   },
   {
