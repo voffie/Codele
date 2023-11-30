@@ -198,7 +198,8 @@ const App = () => {
                               <AiOutlineArrowDown className="inline ml-4" />
                             </article>
                           )}
-                        {guess.releaseYear === solution?.releaseYear &&
+                        {(guess.releaseYear === solution?.releaseYear ||
+                          guess.releaseYear === "No data") &&
                           guess.releaseYear}
                       </td>
                       <td className={getClass(guess.compiled, "compiled")}>
