@@ -29,8 +29,8 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
           </thead>
           <tbody>
             <tr>
-              <td className="text-green-300 p-2">TypeScript</td>
-              <td className="text-green-300 p-2">2012</td>
+              <td className="text-green-300 p-2">Dart</td>
+              <td className="text-green-300 p-2">2011</td>
               <td className="text-green-300 p-2">True</td>
               <td className="text-green-300 p-2">True</td>
             </tr>
