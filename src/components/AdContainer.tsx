@@ -1,12 +1,4 @@
-import { useEffect } from "react";
-
 export const AdContainer = () => {
-  useEffect(() => {
-    try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-    } catch (e) {}
-  }, []);
-
   return (
     <ins
       className="h-20"
