@@ -17,7 +17,7 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
         will change depending on how close your guess was to the word.
       </p>
 
-      <div className="mb-1 mt-4 flex justify-center">
+      <div className="mt-4 flex justify-center flex-col gap-2 mx-2 items-center">
         <table className="border border-white-400 text-center">
           <thead>
             <tr>
@@ -29,19 +29,16 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
           </thead>
           <tbody>
             <tr>
-              <td className="text-green-300 p-2">TypeScript</td>
-              <td className="text-green-300 p-2">2012</td>
+              <td className="text-green-300 p-2">Dart</td>
+              <td className="text-green-300 p-2">2011</td>
               <td className="text-green-300 p-2">True</td>
               <td className="text-green-300 p-2">True</td>
             </tr>
           </tbody>
         </table>
-      </div>
-      <p className="text-sm text-gray-300">
-        In the example above all parts are correct
-      </p>
-
-      <div className="mb-1 mt-4 flex justify-center">
+        <p className="text-sm text-gray-300">
+          In the example above all parts are correct
+        </p>
         <table className="border border-white-400 text-center">
           <thead>
             <tr>
@@ -60,12 +57,10 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
             </tr>
           </tbody>
         </table>
-      </div>
-      <p className="text-sm text-gray-300">
-        In the example above some, but not all parts are correct
-      </p>
+        <p className="text-sm text-gray-300">
+          In the example above some, but not all parts are correct
+        </p>
 
-      <div className="mb-1 mt-4 flex justify-center">
         <table className="border border-white-400 text-center">
           <thead>
             <tr>
@@ -84,12 +79,12 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
             </tr>
           </tbody>
         </table>
+        <p className="text-sm text-gray-300">
+          In the example above none of the parts are correct
+        </p>
       </div>
-      <p className="text-sm text-gray-300">
-        In the example above none of the parts are correct
-      </p>
 
-      <p className="mt-6 text-sm italic text-gray-300">
+      <p className="mt-4 text-sm italic text-gray-300">
         Made by{" "}
         <a
           href="https://github.com/voffiedev"

@@ -14,7 +14,6 @@ import {
 } from "./lib/localStorage";
 import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
 import { InfoModal } from "./components/Modals/InfoModal";
-import { SettingsModal } from "./components/Modals/SettingsModal";
 import Div100vh from "react-div-100vh";
 import { AlertContainer } from "./components/Alerts/AlertContainer";
 import { useAlert } from "./context/AlertContext";
@@ -27,7 +26,6 @@ const App = () => {
   const [isGameWon, setIsGameWon] = useState(false);
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const [isStatsModalOpen, setIsStatsModalOpen] = useState(false);
-  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isGameLost, setIsGameLost] = useState(false);
   const [guesses, setGuesses] = useState<Language[]>(() => {
     const loaded = fetchGameFromLocalStorage();
@@ -147,7 +145,6 @@ const App = () => {
       <div className="flex h-full flex-col bg-black">
         <Navbar
           setIsInfoModalOpen={setIsInfoModalOpen}
-          setIsSettingsModalOpen={setIsSettingsModalOpen}
           setIsStatsModalOpen={setIsStatsModalOpen}
         />
         <div className="flex w-screen grow flex-col pt-2 pb-8 sm:px-6 lg:px-8 short:pb-2 short:pt-2">
@@ -245,10 +242,6 @@ const App = () => {
               )
             }
             numberOfGuessesMade={guesses.length}
-          />
-          <SettingsModal
-            isOpen={isSettingsModalOpen}
-            handleClose={() => setIsSettingsModalOpen(false)}
           />
           <AlertContainer />
         </div>
