@@ -58,7 +58,7 @@ export const BaseModal = ({
                   className="h-6 w-6 cursor-pointer stroke-white"
                 />
               </button>
-              <div>
+              <div className="flex justify-center">
                 <div className="text-center">
                   <Dialog.Title
                     as="h3"

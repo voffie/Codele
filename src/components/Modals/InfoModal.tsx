@@ -12,7 +12,7 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
       isOpen={isOpen}
       handleClose={handleClose}
     >
-      <p className="text-sm text-gray-300">
+      <p className="text-sm text-gray-300 mx-2">
         Guess the language in 5 tries. After each guess, the color of the text
         will change depending on how close your guess was to the word.
       </p>
