@@ -19,7 +19,6 @@ import { AlertContainer } from "./components/Alerts/AlertContainer";
 import { useAlert } from "./context/AlertContext";
 import { generateStats, loadStats } from "./lib/stats";
 import { StatsModal } from "./components/Modals/StatsModal";
-import { AdContainer } from "./components/AdContainer";
 
 const App = () => {
   const { showError: showErrorAlert, showSuccess: showSuccessAlert } =
@@ -216,11 +215,11 @@ const App = () => {
               <a
                 href="https://github.com/voffiedev"
                 className="font-bold underline"
+                target="_blank"
               >
                 VoffieDev
               </a>
             </p>
-            <AdContainer />
           </div>
           <InfoModal
             isOpen={isInfoModalOpen}
