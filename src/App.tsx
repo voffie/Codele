@@ -19,6 +19,8 @@ import { AlertContainer } from "./components/Alerts/AlertContainer";
 import { useAlert } from "./context/AlertContext";
 import { generateStats, loadStats } from "./lib/stats";
 import { StatsModal } from "./components/Modals/StatsModal";
+import { Combobox } from "@headlessui/react";
+import { LANGUAGES } from "./constants/languages";
 
 const App = () => {
   const { showError: showErrorAlert, showSuccess: showSuccessAlert } =
@@ -27,6 +29,8 @@ const App = () => {
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const [isStatsModalOpen, setIsStatsModalOpen] = useState(false);
   const [isGameLost, setIsGameLost] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState("");
+  const [query, setQuery] = useState("");
   const [guesses, setGuesses] = useState<Language[]>(() => {
     const loaded = fetchGameFromLocalStorage();
     if (loaded?.solution.name !== solution.name) {
@@ -82,26 +86,31 @@ const App = () => {
     }
   }, [isGameWon, isGameLost, showSuccessAlert]);
 
-  const methods = useForm();
-  const { handleSubmit, register, watch, reset } = methods;
+  const filteredLanguages =
+    query === ""
+      ? LANGUAGES
+      : LANGUAGES.filter((lang) =>
+          lang.name.toLowerCase().includes(query.toLowerCase())
+        );
 
-  const currentGuess = watch("currentGuess");
+  const methods = useForm();
+  const { handleSubmit, reset } = methods;
 
   const onSubmit = handleSubmit(() => {
     if (isGameWon || isGameLost) {
       return;
     }
 
-    if (!isLanguageInLanguageList(currentGuess)) {
+    if (!isLanguageInLanguageList(selectedLanguage)) {
       return showErrorAlert("Language not found");
     }
 
-    const winningLanguage = isWinningLanguage(currentGuess);
-    const data = getGuessData(currentGuess);
+    const winningLanguage = isWinningLanguage(selectedLanguage);
+    const data = getGuessData(selectedLanguage);
 
     if (guesses.length < 5 && !isGameWon) {
       setGuesses([...guesses, data!]);
-      reset();
+      setSelectedLanguage("");
 
       if (winningLanguage) {
         setStats(generateStats(stats, guesses.length));
@@ -153,14 +162,36 @@ const App = () => {
               <form onSubmit={onSubmit}>
                 <section className="flex gap-2">
                   <h1>$ guest@codele.dev</h1>
-                  <input
-                    aria-label="Guess field"
-                    autoFocus
-                    type="text"
-                    disabled={isGameLost || isGameWon}
-                    className="appearance-none bg-transparent focus:outline-none selection:bg-white selection:text-black"
-                    {...register("currentGuess")}
-                  />
+                  <div className="flex flex-wrap">
+                    <Combobox
+                      value={selectedLanguage}
+                      onChange={setSelectedLanguage}
+                      name="currentGuess"
+                    >
+                      <Combobox.Input
+                        aria-label="Guess field"
+                        autoFocus
+                        type="text"
+                        onChange={(event) => setQuery(event.target.value)}
+                        className="bg-transparent outline-none"
+                      />
+                      <Combobox.Options className="flex items-center justfiy-start gap-2 bg-transparent rounded-md md:w-[calc(1326px-324px)] overflow-x-hidden flex-wrap">
+                        {filteredLanguages.map((lang) => (
+                          <Combobox.Option
+                            key={lang.name}
+                            value={lang.name}
+                            className={({ active }) =>
+                              `text-[rgb(45,45,45)] h-6 ${
+                                active ? "text-white" : ""
+                              }`
+                            }
+                          >
+                            {lang.name}
+                          </Combobox.Option>
+                        ))}
+                      </Combobox.Options>
+                    </Combobox>
+                  </div>
                 </section>
               </form>
             </FormProvider>
