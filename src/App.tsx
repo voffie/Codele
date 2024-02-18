@@ -26,6 +26,10 @@ const App = () => {
   const { showError: showErrorAlert, showSuccess: showSuccessAlert } =
     useAlert();
   const [isGameWon, setIsGameWon] = useState(false);
+  const [isUnlimited, setIsUnlimited] = useState(() => {
+    const loaded = fetchGameFromLocalStorage();
+    return loaded?.isUnlimited ? loaded?.isUnlimited : false;
+  });
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const [isStatsModalOpen, setIsStatsModalOpen] = useState(false);
   const [isGameLost, setIsGameLost] = useState(false);
@@ -44,9 +48,9 @@ const App = () => {
     if (gameWasWon) {
       setIsGameWon(true);
     }
-    if (loaded?.guesses.length === 5 && !gameWasWon) {
+    if (!isUnlimited && loaded?.guesses.length === 5 && !gameWasWon) {
       setIsGameLost(true);
-      showErrorAlert(`The correct language was ${solution.name}`);
+      showErrorAlert("Game over");
     }
     return loaded?.guesses;
   });
@@ -65,6 +69,7 @@ const App = () => {
     writeGameToLocalStorage({
       guesses,
       solution,
+      isUnlimited,
     });
   }, [guesses]);
 
@@ -74,7 +79,6 @@ const App = () => {
       const winMessage =
         winMessages[Math.floor(Math.random() * winMessages.length)];
       showSuccessAlert(winMessage, {
-        delayMs: 1000,
         onClose: () => setIsStatsModalOpen(true),
       });
     }
@@ -82,24 +86,29 @@ const App = () => {
     if (isGameLost) {
       setTimeout(() => {
         setIsStatsModalOpen(true);
-      }, (solution.name.length + 1) * 350);
+      }, 350);
     }
   }, [isGameWon, isGameLost, showSuccessAlert]);
 
   const filteredLanguages =
     query === ""
       ? LANGUAGES
-      : LANGUAGES.filter((lang) =>
-          lang.name.toLowerCase().includes(query.toLowerCase())
+      : LANGUAGES.filter(
+          (lang) =>
+            lang.name.toLowerCase().includes(query.toLowerCase()) ||
+            lang.aliases?.includes(query.toLowerCase())
         );
 
   const methods = useForm();
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit } = methods;
 
   const onSubmit = handleSubmit(() => {
-    if (isGameWon || isGameLost) {
+    if (!isUnlimited && (isGameWon || isGameLost)) {
       return;
     }
+
+    if (guesses.filter((guess) => guess.name === selectedLanguage).length === 1)
+      return showErrorAlert(`Already guessed ${selectedLanguage}`);
 
     if (!isLanguageInLanguageList(selectedLanguage)) {
       return showErrorAlert("Language not found");
@@ -108,24 +117,19 @@ const App = () => {
     const winningLanguage = isWinningLanguage(selectedLanguage);
     const data = getGuessData(selectedLanguage);
 
-    if (guesses.length < 5 && !isGameWon) {
-      setGuesses([...guesses, data!]);
-      setSelectedLanguage("");
+    setGuesses([...guesses, data!]);
+    setSelectedLanguage("");
 
-      if (winningLanguage) {
-        setStats(generateStats(stats, guesses.length));
-        return setIsGameWon(true);
-      }
+    if (winningLanguage) {
+      if (!isUnlimited) setStats(generateStats(stats, guesses.length));
+      return setIsGameWon(true);
+    }
 
-      if (guesses.length === 4) {
-        setStats(generateStats(stats, guesses.length + 1));
+    if (!isUnlimited && guesses.length === 4) {
+      setStats(generateStats(stats, guesses.length + 1));
 
-        setIsGameLost(true);
-        showErrorAlert(`The language was ${solution.name}`, {
-          persist: true,
-          delayMs: 350 * solution.name.length + 1,
-        });
-      }
+      setIsGameLost(true);
+      showErrorAlert("Game over");
     }
   });
 
@@ -143,9 +147,11 @@ const App = () => {
       case "compiled":
         return guess === solution?.compiled ? "text-green-300" : "text-red-300";
       case "object":
-        return guess === solution?.objectOriented
-          ? "text-green-300"
-          : "text-red-300";
+        if (guess === solution?.objectOriented) return "text-green-300";
+        if (solution?.objectOriented === "true & false") return "";
+        return "text-red-300";
+      case "typed":
+        return guess === solution?.typed ? "text-green-300" : "text-red-300";
     }
   };
 
@@ -203,6 +209,13 @@ const App = () => {
                     <th>Release Year</th>
                     <th>Compiled</th>
                     <th>Object Oriented</th>
+                    <th className="hover-text">
+                      <p>Typed*</p>
+                      <span className="tooltip-text">
+                        <p>Static | Dynamic |</p>The most prominent one if both
+                        exist
+                      </span>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -236,6 +249,9 @@ const App = () => {
                       <td className={getClass(guess.objectOriented, "object")}>
                         {guess.objectOriented ? "True" : "False"}
                       </td>
+                      <td className={getClass(guess.typed, "typed")}>
+                        {guess.typed}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -246,6 +262,7 @@ const App = () => {
               <a
                 href="https://github.com/voffiedev"
                 className="font-bold underline"
+                target="_blank"
               >
                 VoffieDev
               </a>
@@ -273,6 +290,8 @@ const App = () => {
               )
             }
             numberOfGuessesMade={guesses.length}
+            isUnlimited={isUnlimited}
+            setIsUnlimited={() => setIsUnlimited(true)}
           />
           <AlertContainer />
         </div>
