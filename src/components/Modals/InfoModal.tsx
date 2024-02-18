@@ -25,6 +25,7 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
               <th className="p-2">Release Year</th>
               <th className="p-2">Compiled</th>
               <th className="p-2">Object Oriented</th>
+              <th className="p-2">Typed</th>
             </tr>
           </thead>
           <tbody>
@@ -33,6 +34,7 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
               <td className="text-green-300 p-2">2011</td>
               <td className="text-green-300 p-2">True</td>
               <td className="text-green-300 p-2">True</td>
+              <td className="text-green-300 p-2">Static</td>
             </tr>
           </tbody>
         </table>
@@ -46,6 +48,7 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
               <th className="p-2">Release Year</th>
               <th className="p-2">Compiled</th>
               <th className="p-2">Object Oriented</th>
+              <th className="p-2">Typed</th>
             </tr>
           </thead>
           <tbody>
@@ -54,6 +57,7 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
               <td className="text-red-300 p-2">2000</td>
               <td className="text-green-300 p-2">True</td>
               <td className="text-red-300 p-2">True</td>
+              <td className="text-green-300 p-2">Static</td>
             </tr>
           </tbody>
         </table>
@@ -68,6 +72,7 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
               <th className="p-2">Release Year</th>
               <th className="p-2">Compiled</th>
               <th className="p-2">Object Oriented</th>
+              <th className="p-2">Typed</th>
             </tr>
           </thead>
           <tbody>
@@ -76,6 +81,7 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
               <td className="text-red-300 p-2">1989</td>
               <td className="text-red-300 p-2">False</td>
               <td className="text-red-300 p-2">False</td>
+              <td className="text-red-300 p-2">Static</td>
             </tr>
           </tbody>
         </table>
@@ -89,6 +95,7 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
         <a
           href="https://github.com/voffiedev"
           className="font-bold underline"
+          target="_blank"
         >
           VoffieDev
         </a>
