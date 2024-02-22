@@ -3,6 +3,7 @@ import { Language } from "./languages";
 export type StoredState = {
   guesses: Language[];
   solution: Language;
+  isUnlimited: boolean;
 };
 
 export const writeGameToLocalStorage = (state: StoredState) => {

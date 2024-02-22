@@ -1,6 +1,5 @@
 import { AiOutlineShareAlt } from "react-icons/ai";
 import Countdown from "react-countdown";
-
 import { GameStats } from "../../lib/localStorage";
 import { shareStatus } from "../../lib/share";
 import { Language, tomorrow } from "../../lib/languages";
@@ -19,6 +18,8 @@ type Props = {
   handleShareToClipboard: () => void;
   handleShareFailure: () => void;
   numberOfGuessesMade: number;
+  isUnlimited: boolean;
+  setIsUnlimited: () => void;
 };
 
 export const StatsModal = ({
@@ -32,6 +33,8 @@ export const StatsModal = ({
   handleShareToClipboard,
   handleShareFailure,
   numberOfGuessesMade,
+  isUnlimited,
+  setIsUnlimited,
 }: Props) => {
   if (gameStats.totalGames <= 0) {
     return (
@@ -70,22 +73,41 @@ export const StatsModal = ({
             />
           </div>
           <div>
-            <button
-              type="button"
-              className="mt-2 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-base"
-              onClick={() => {
-                shareStatus(
-                  solution,
-                  guesses,
-                  isGameLost,
-                  handleShareToClipboard,
-                  handleShareFailure
-                );
-              }}
-            >
-              <AiOutlineShareAlt className="mr-2 h-6 w-6 cursor-pointer stroke-white" />
-              Share
-            </button>
+            {isGameWon && (
+              <button
+                type="button"
+                className="mt-2 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-base"
+                onClick={() => {
+                  shareStatus(
+                    solution,
+                    guesses,
+                    isGameLost,
+                    handleShareToClipboard,
+                    handleShareFailure,
+                    isUnlimited
+                  );
+                }}
+              >
+                <AiOutlineShareAlt className="mr-2 h-6 w-6 cursor-pointer stroke-white" />
+                Share
+              </button>
+            )}
+            {isGameLost && (
+              <button
+                type="button"
+                className="hover-text mt-2 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-base"
+                onClick={() => {
+                  handleClose();
+                  setIsUnlimited();
+                }}
+              >
+                Keep guessing
+                <span className="button-tooltip-text">
+                  Your stats will stay the same, but you will have unlimited
+                  guesses
+                </span>
+              </button>
+            )}
           </div>
         </div>
       )}

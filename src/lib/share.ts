@@ -14,13 +14,15 @@ export const shareStatus = (
   guesses: Language[],
   lost: boolean,
   handleShareToClipboard: () => void,
-  handleShareFailure: () => void
+  handleShareFailure: () => void,
+  isUnlimited: boolean
 ) => {
   const textToShare =
     `Codele ${getToday().getDate()}/${
       getToday().getMonth() + 1
-    } - ${getToday().getFullYear()} ${lost ? 0 : guesses.length}/5\n\n` +
-    generateEmojiGrid(solution, guesses, getEmojiTiles());
+    } - ${getToday().getFullYear()} ${
+      isUnlimited ? "Unlimited" : lost ? 0 + "/5" : guesses.length + "/5"
+    }\n\n` + generateEmojiGrid(solution, guesses, getEmojiTiles());
 
   const shareData = { text: textToShare };
 
@@ -51,7 +53,7 @@ export const shareStatus = (
   }
 };
 
-export const generateEmojiGrid = (
+const generateEmojiGrid = (
   solution: Language,
   guesses: Language[],
   tiles: string[]

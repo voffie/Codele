@@ -7,11 +7,12 @@ export type Language = {
   name: string;
   releaseYear: number | string;
   compiled: boolean;
-  objectOriented: boolean;
+  objectOriented: boolean | string;
+  typed: string;
 };
 
-export const firstGameDate = new Date(2023, 0);
-export const periodInDays = 1;
+const firstGameDate = new Date(2023, 0);
+const periodInDays = 1;
 
 export const isLanguageInLanguageList = (language: string) => {
   return LANGUAGES.find(
@@ -31,17 +32,17 @@ export const getGuessData = (guess: string) => {
   );
 };
 
-export const getLastGameDate = (today: Date) => {
+const getLastGameDate = (today: Date) => {
   const t = startOfDay(today);
   let daysSinceLastGame = differenceInDays(firstGameDate, t) % periodInDays;
   return addDays(t, -daysSinceLastGame);
 };
 
-export const getNextGameDate = (today: Date) => {
+const getNextGameDate = (today: Date) => {
   return addDays(getLastGameDate(today), periodInDays);
 };
 
-export const getIndex = (gameDate: Date) => {
+const getIndex = (gameDate: Date) => {
   let start = firstGameDate;
   let index = -1;
   do {
@@ -52,7 +53,7 @@ export const getIndex = (gameDate: Date) => {
   return index;
 };
 
-export const getLanguageOfTheDay = (index: number) => {
+const getLanguageOfTheDay = (index: number) => {
   if (index < 0) {
     throw new Error("Invalid index");
   }
@@ -60,7 +61,7 @@ export const getLanguageOfTheDay = (index: number) => {
   return LANGUAGES[index % LANGUAGES.length];
 };
 
-export const getSolution = (gameDate: Date) => {
+const getSolution = (gameDate: Date) => {
   const nextGameDate = getNextGameDate(gameDate);
   const index = getIndex(gameDate);
   const languageOfTheDay = getLanguageOfTheDay(index);

@@ -19,14 +19,22 @@ import { AlertContainer } from "./components/Alerts/AlertContainer";
 import { useAlert } from "./context/AlertContext";
 import { generateStats, loadStats } from "./lib/stats";
 import { StatsModal } from "./components/Modals/StatsModal";
+import { Combobox } from "@headlessui/react";
+import { LANGUAGES } from "./constants/languages";
 
 const App = () => {
   const { showError: showErrorAlert, showSuccess: showSuccessAlert } =
     useAlert();
   const [isGameWon, setIsGameWon] = useState(false);
+  const [isUnlimited, setIsUnlimited] = useState(() => {
+    const loaded = fetchGameFromLocalStorage();
+    return loaded?.isUnlimited ? loaded?.isUnlimited : false;
+  });
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const [isStatsModalOpen, setIsStatsModalOpen] = useState(false);
   const [isGameLost, setIsGameLost] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState("");
+  const [query, setQuery] = useState("");
   const [guesses, setGuesses] = useState<Language[]>(() => {
     const loaded = fetchGameFromLocalStorage();
     if (loaded?.solution.name !== solution.name) {
@@ -40,9 +48,9 @@ const App = () => {
     if (gameWasWon) {
       setIsGameWon(true);
     }
-    if (loaded?.guesses.length === 5 && !gameWasWon) {
+    if (!isUnlimited && loaded?.guesses.length === 5 && !gameWasWon) {
       setIsGameLost(true);
-      showErrorAlert(`The correct language was ${solution.name}`);
+      showErrorAlert("Game over");
     }
     return loaded?.guesses;
   });
@@ -61,6 +69,7 @@ const App = () => {
     writeGameToLocalStorage({
       guesses,
       solution,
+      isUnlimited,
     });
   }, [guesses]);
 
@@ -70,7 +79,6 @@ const App = () => {
       const winMessage =
         winMessages[Math.floor(Math.random() * winMessages.length)];
       showSuccessAlert(winMessage, {
-        delayMs: 1000,
         onClose: () => setIsStatsModalOpen(true),
       });
     }
@@ -78,45 +86,50 @@ const App = () => {
     if (isGameLost) {
       setTimeout(() => {
         setIsStatsModalOpen(true);
-      }, (solution.name.length + 1) * 350);
+      }, 350);
     }
   }, [isGameWon, isGameLost, showSuccessAlert]);
 
-  const methods = useForm();
-  const { handleSubmit, register, watch, reset } = methods;
+  const filteredLanguages =
+    query === ""
+      ? LANGUAGES
+      : LANGUAGES.filter(
+          (lang) =>
+            lang.name.toLowerCase().includes(query.toLowerCase()) ||
+            lang.aliases?.includes(query.toLowerCase())
+        );
 
-  const currentGuess = watch("currentGuess");
+  const methods = useForm();
+  const { handleSubmit } = methods;
 
   const onSubmit = handleSubmit(() => {
-    if (isGameWon || isGameLost) {
+    if (!isUnlimited && (isGameWon || isGameLost)) {
       return;
     }
 
-    if (!isLanguageInLanguageList(currentGuess)) {
+    if (guesses.filter((guess) => guess.name === selectedLanguage).length === 1)
+      return showErrorAlert(`Already guessed ${selectedLanguage}`);
+
+    if (!isLanguageInLanguageList(selectedLanguage)) {
       return showErrorAlert("Language not found");
     }
 
-    const winningLanguage = isWinningLanguage(currentGuess);
-    const data = getGuessData(currentGuess);
+    const winningLanguage = isWinningLanguage(selectedLanguage);
+    const data = getGuessData(selectedLanguage);
 
-    if (guesses.length < 5 && !isGameWon) {
-      setGuesses([...guesses, data!]);
-      reset();
+    setGuesses([...guesses, data!]);
+    setSelectedLanguage("");
 
-      if (winningLanguage) {
-        setStats(generateStats(stats, guesses.length));
-        return setIsGameWon(true);
-      }
+    if (winningLanguage) {
+      if (!isUnlimited) setStats(generateStats(stats, guesses.length));
+      return setIsGameWon(true);
+    }
 
-      if (guesses.length === 4) {
-        setStats(generateStats(stats, guesses.length + 1));
+    if (!isUnlimited && guesses.length === 4) {
+      setStats(generateStats(stats, guesses.length + 1));
 
-        setIsGameLost(true);
-        showErrorAlert(`The language was ${solution.name}`, {
-          persist: true,
-          delayMs: 350 * solution.name.length + 1,
-        });
-      }
+      setIsGameLost(true);
+      showErrorAlert("Game over");
     }
   });
 
@@ -134,9 +147,11 @@ const App = () => {
       case "compiled":
         return guess === solution?.compiled ? "text-green-300" : "text-red-300";
       case "object":
-        return guess === solution?.objectOriented
-          ? "text-green-300"
-          : "text-red-300";
+        if (guess === solution?.objectOriented) return "text-green-300";
+        if (solution?.objectOriented === "true & false") return "";
+        return "text-red-300";
+      case "typed":
+        return guess === solution?.typed ? "text-green-300" : "text-red-300";
     }
   };
 
@@ -153,14 +168,36 @@ const App = () => {
               <form onSubmit={onSubmit}>
                 <section className="flex gap-2">
                   <h1>$ guest@codele.dev</h1>
-                  <input
-                    aria-label="Guess field"
-                    autoFocus
-                    type="text"
-                    disabled={isGameLost || isGameWon}
-                    className="appearance-none bg-transparent focus:outline-none selection:bg-white selection:text-black"
-                    {...register("currentGuess")}
-                  />
+                  <div className="flex flex-wrap">
+                    <Combobox
+                      value={selectedLanguage}
+                      onChange={setSelectedLanguage}
+                      name="currentGuess"
+                    >
+                      <Combobox.Input
+                        aria-label="Guess field"
+                        autoFocus
+                        type="text"
+                        onChange={(event) => setQuery(event.target.value)}
+                        className="bg-transparent outline-none"
+                      />
+                      <Combobox.Options className="flex items-center justfiy-start gap-2 bg-transparent rounded-md md:w-[calc(1326px-324px)] overflow-x-hidden flex-wrap">
+                        {filteredLanguages.map((lang) => (
+                          <Combobox.Option
+                            key={lang.name}
+                            value={lang.name}
+                            className={({ active }) =>
+                              `text-[rgb(45,45,45)] h-6 ${
+                                active ? "text-white" : ""
+                              }`
+                            }
+                          >
+                            {lang.name}
+                          </Combobox.Option>
+                        ))}
+                      </Combobox.Options>
+                    </Combobox>
+                  </div>
                 </section>
               </form>
             </FormProvider>
@@ -172,6 +209,13 @@ const App = () => {
                     <th>Release Year</th>
                     <th>Compiled</th>
                     <th>Object Oriented</th>
+                    <th className="hover-text">
+                      <p>Typed*</p>
+                      <span className="tooltip-text">
+                        <p>Static | Dynamic |</p>The most prominent one if both
+                        exist
+                      </span>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -204,6 +248,9 @@ const App = () => {
                       </td>
                       <td className={getClass(guess.objectOriented, "object")}>
                         {guess.objectOriented ? "True" : "False"}
+                      </td>
+                      <td className={getClass(guess.typed, "typed")}>
+                        {guess.typed}
                       </td>
                     </tr>
                   ))}
@@ -243,6 +290,8 @@ const App = () => {
               )
             }
             numberOfGuessesMade={guesses.length}
+            isUnlimited={isUnlimited}
+            setIsUnlimited={() => setIsUnlimited(true)}
           />
           <AlertContainer />
         </div>
