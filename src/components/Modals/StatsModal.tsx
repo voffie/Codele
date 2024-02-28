@@ -38,21 +38,13 @@ export const StatsModal = ({
 }: Props) => {
   if (gameStats.totalGames <= 0) {
     return (
-      <BaseModal
-        title="Statistics"
-        isOpen={isOpen}
-        handleClose={handleClose}
-      >
+      <BaseModal title="Statistics" isOpen={isOpen} handleClose={handleClose}>
         <StatBar gameStats={gameStats} />
       </BaseModal>
     );
   }
   return (
-    <BaseModal
-      title="Statistics"
-      isOpen={isOpen}
-      handleClose={handleClose}
-    >
+    <BaseModal title="Statistics" isOpen={isOpen} handleClose={handleClose}>
       <StatBar gameStats={gameStats} />
       <h4 className="text-lg font-medium leading-6 text-gray-100">
         Guess Distribution
@@ -84,7 +76,7 @@ export const StatsModal = ({
                     isGameLost,
                     handleShareToClipboard,
                     handleShareFailure,
-                    isUnlimited
+                    isUnlimited,
                   );
                 }}
               >

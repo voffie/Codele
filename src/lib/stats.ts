@@ -6,7 +6,7 @@ import {
 
 export const generateStats = (
   gameStats: GameStats,
-  incorrectGuesses: number
+  incorrectGuesses: number,
 ) => {
   const stats = { ...gameStats };
 
@@ -47,6 +47,6 @@ const getSuccessRate = (gameStats: GameStats) => {
   const { totalGames, gamesFailed } = gameStats;
 
   return Math.round(
-    (100 * (totalGames - gamesFailed)) / Math.max(totalGames, 1)
+    (100 * (totalGames - gamesFailed)) / Math.max(totalGames, 1),
   );
 };

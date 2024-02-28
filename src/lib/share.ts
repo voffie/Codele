@@ -15,7 +15,7 @@ export const shareStatus = (
   lost: boolean,
   handleShareToClipboard: () => void,
   handleShareFailure: () => void,
-  isUnlimited: boolean
+  isUnlimited: boolean,
 ) => {
   const textToShare =
     `Codele ${getToday().getDate()}/${
@@ -56,7 +56,7 @@ export const shareStatus = (
 const generateEmojiGrid = (
   solution: Language,
   guesses: Language[],
-  tiles: string[]
+  tiles: string[],
 ) => {
   return guesses
     .map((guess) => {
