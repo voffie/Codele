@@ -240,7 +240,7 @@ const App = () => {
                             </article>
                           )}
                         {(guess.releaseYear === solution?.releaseYear ||
-                          guess.releaseYear === "No data") &&
+                          guess.releaseYear === "No data" || solution.releaseYear === "No data") &&
                           guess.releaseYear}
                       </td>
                       <td className={getClass(guess.compiled, "compiled")}>
