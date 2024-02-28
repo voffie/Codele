@@ -41,7 +41,7 @@ const App = () => {
       return [];
     }
     const gameWasWon = loaded?.guesses.find(
-      (item) => item.name === solution.name
+      (item) => item.name === solution.name,
     )
       ? true
       : false;
@@ -96,7 +96,7 @@ const App = () => {
       : LANGUAGES.filter(
           (lang) =>
             lang.name.toLowerCase().includes(query.toLowerCase()) ||
-            lang.aliases?.includes(query.toLowerCase())
+            lang.aliases?.includes(query.toLowerCase()),
         );
 
   const methods = useForm();
@@ -135,7 +135,7 @@ const App = () => {
 
   const getClass = (
     guess: string | string[] | number | boolean,
-    type: string
+    type: string,
   ) => {
     switch (type) {
       case "name":
@@ -162,8 +162,8 @@ const App = () => {
           setIsInfoModalOpen={setIsInfoModalOpen}
           setIsStatsModalOpen={setIsStatsModalOpen}
         />
-        <div className="flex w-screen grow flex-col pt-2 pb-8 sm:px-6 lg:px-8 short:pb-2 short:pt-2">
-          <div className="flex grow flex-col pt-6 pb-6 short:pb-2 gap-4">
+        <div className="flex w-screen grow flex-col pb-8 pt-2 sm:px-6 lg:px-8 short:pb-2 short:pt-2">
+          <div className="flex grow flex-col gap-4 pb-6 pt-6 short:pb-2">
             <FormProvider {...methods}>
               <form onSubmit={onSubmit}>
                 <section className="flex gap-2">
@@ -181,13 +181,13 @@ const App = () => {
                         onChange={(event) => setQuery(event.target.value)}
                         className="bg-transparent outline-none"
                       />
-                      <Combobox.Options className="flex items-center justfiy-start gap-2 bg-transparent rounded-md md:w-[calc(1326px-324px)] overflow-x-hidden flex-wrap">
+                      <Combobox.Options className="justfiy-start flex flex-wrap items-center gap-2 overflow-x-hidden rounded-md bg-transparent md:w-[calc(1326px-324px)]">
                         {filteredLanguages.map((lang) => (
                           <Combobox.Option
                             key={lang.name}
                             value={lang.name}
                             className={({ active }) =>
-                              `text-[rgb(45,45,45)] h-6 ${
+                              `h-6 text-[rgb(45,45,45)] ${
                                 active ? "text-white" : ""
                               }`
                             }
@@ -202,7 +202,7 @@ const App = () => {
               </form>
             </FormProvider>
             {guesses.length && (
-              <table className="border border-white-400 text-center self-center w-full">
+              <table className="border-white-400 w-full self-center border text-center">
                 <thead>
                   <tr>
                     <th>Name</th>
@@ -229,18 +229,18 @@ const App = () => {
                           guess.releaseYear < solution?.releaseYear && (
                             <article>
                               {guess.releaseYear}
-                              <AiOutlineArrowUp className="inline ml-4" />
+                              <AiOutlineArrowUp className="ml-4 inline" />
                             </article>
                           )}
                         {solution?.releaseYear &&
                           guess.releaseYear > solution?.releaseYear && (
                             <article>
                               {guess.releaseYear}
-                              <AiOutlineArrowDown className="inline ml-4" />
+                              <AiOutlineArrowDown className="ml-4 inline" />
                             </article>
                           )}
                         {(guess.releaseYear === solution?.releaseYear ||
-                          guess.releaseYear === "No data") &&
+                          guess.releaseYear === "No data" || solution.releaseYear === "No data") &&
                           guess.releaseYear}
                       </td>
                       <td className={getClass(guess.compiled, "compiled")}>
@@ -257,7 +257,7 @@ const App = () => {
                 </tbody>
               </table>
             )}
-            <p className="mt-6 text-sm italic text-gray-300 text-center">
+            <p className="mt-6 text-center text-sm italic text-gray-300">
               Made by{" "}
               <a
                 href="https://github.com/voffiedev"
@@ -286,7 +286,7 @@ const App = () => {
             handleShareFailure={() =>
               showErrorAlert(
                 "Unable to share the results. This feature is available only in secure contexts (HTTPS), in some or all supporting browsers.",
-                { durationMs: 10000 }
+                { durationMs: 10000 },
               )
             }
             numberOfGuessesMade={guesses.length}

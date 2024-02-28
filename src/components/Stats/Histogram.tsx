@@ -10,7 +10,7 @@ type HistogramProps = {
 const isCurrentDayStatRow = (
   isGameWon: boolean,
   numberOfGuessesMade: number,
-  i: number
+  i: number,
 ) => {
   return isGameWon && numberOfGuessesMade === i + 1;
 };
@@ -32,7 +32,7 @@ export const Histogram = ({
           isCurrentDayStatRow={isCurrentDayStatRow(
             isGameWon,
             numberOfGuessesMade,
-            i
+            i,
           )}
           size={90 * (value / maxValue)}
           label={String(value)}

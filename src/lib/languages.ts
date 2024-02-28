@@ -16,7 +16,7 @@ const periodInDays = 1;
 
 export const isLanguageInLanguageList = (language: string) => {
   return LANGUAGES.find(
-    (item) => item.name.toLowerCase() === language.toLowerCase()
+    (item) => item.name.toLowerCase() === language.toLowerCase(),
   )
     ? true
     : false;
@@ -28,7 +28,7 @@ export const isWinningLanguage = (language: string) => {
 
 export const getGuessData = (guess: string) => {
   return LANGUAGES.find(
-    (item) => item.name.toLowerCase() === guess.toLowerCase()
+    (item) => item.name.toLowerCase() === guess.toLowerCase(),
   );
 };
 

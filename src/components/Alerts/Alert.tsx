@@ -13,7 +13,7 @@ export const Alert = ({ isOpen, message, variant, topMost }: AlertProps) => {
   const classes = twMerge(
     "fixed z-20 top-14 left-1/2 transform -translate-x-1/2 max-w-sm shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden",
     variant === "error" ? "bg-rose-500 text-white" : "",
-    variant === "success" ? "bg-green-500 text-white" : ""
+    variant === "success" ? "bg-green-500 text-white" : "",
   );
 
   return (

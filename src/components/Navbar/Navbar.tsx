@@ -17,14 +17,14 @@ export const Navbar = ({
   setIsStatsModalOpen,
 }: NavbarProps) => {
   return (
-    <header className="px-5 py-1 text-center rounded-t-2xl bg-[#D8D8D8] flex items-center justify-between">
+    <header className="flex items-center justify-between rounded-t-2xl bg-[#D8D8D8] px-5 py-1 text-center">
       <section className="flex">
         <article
-          className="w-5 h-5 rounded-[50%] mr-[20px] bg-[#FF5D5B]"
+          className="mr-[20px] h-5 w-5 rounded-[50%] bg-[#FF5D5B]"
           onClick={closeTab}
         />
-        <article className="w-5 h-5 rounded-[50%] mr-[20px] bg-[#FFBB39]" />
-        <article className="w-5 h-5 rounded-[50%] mr-[20px] bg-[#00CD4E]" />
+        <article className="mr-[20px] h-5 w-5 rounded-[50%] bg-[#FFBB39]" />
+        <article className="mr-[20px] h-5 w-5 rounded-[50%] bg-[#00CD4E]" />
       </section>
       <h1 className="text-black">Codele</h1>
       <div className="flex items-center justify-center gap-2">

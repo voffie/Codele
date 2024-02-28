@@ -4,7 +4,7 @@ export type CharStatus = "wrong" | "correct";
 
 export const getGuessStatuses = (
   solution: Language,
-  guess: Language
+  guess: Language,
 ): CharStatus[] => {
   const solutionCharsTaken = [null, null, null, null, null].map((_) => false);
   const statuses: CharStatus[] = Array(Object.keys(solution).length);
