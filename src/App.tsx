@@ -240,7 +240,8 @@ const App = () => {
                             </article>
                           )}
                         {(guess.releaseYear === solution?.releaseYear ||
-                          guess.releaseYear === "No data" || solution.releaseYear === "No data") &&
+                          guess.releaseYear === "No data" ||
+                          solution.releaseYear === "No data") &&
                           guess.releaseYear}
                       </td>
                       <td className={getClass(guess.compiled, "compiled")}>
@@ -260,11 +261,11 @@ const App = () => {
             <p className="mt-6 text-center text-sm italic text-gray-300">
               Made by{" "}
               <a
-                href="https://github.com/voffiedev"
+                href="https://github.com/voffie"
                 className="font-bold underline"
                 target="_blank"
               >
-                VoffieDev
+                Voffie
               </a>
             </p>
           </div>
