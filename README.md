@@ -6,7 +6,7 @@
   <p align="center">
     A daily guessing game
     <br />
-    <a href="https://codele-voffiedev.vercel.app"><strong>codele-voffiedev.vercel.app »</strong></a>
+    <a href="https://codele-voffiee.vercel.app/"><strong>https://codele-voffiee.vercel.app/ »</strong></a>
     <br />
     <br />
     <strong>Built with</strong>

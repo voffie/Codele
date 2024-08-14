@@ -89,11 +89,11 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
       <p className="mt-4 text-sm italic text-gray-300">
         Made by{" "}
         <a
-          href="https://github.com/voffiedev"
+          href="https://github.com/voffie"
           className="font-bold underline"
           target="_blank"
         >
-          VoffieDev
+          Voffie
         </a>
       </p>
     </BaseModal>
