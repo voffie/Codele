@@ -1,4 +1,5 @@
 import { Header } from "./components/Header";
+import { Footer } from "./components/Footer";
 import { useEffect, useState } from "react";
 import { Navbar } from "./components/Navbar/Navbar";
 import { FormProvider, useForm } from "react-hook-form";
@@ -159,26 +160,13 @@ const App = () => {
   return (
       <Header />
           />
-          <StatsModal
-            isOpen={isStatsModalOpen}
-            handleClose={() => setIsStatsModalOpen(false)}
-            solution={solution}
+      <Footer
             guesses={guesses}
-            gameStats={stats}
+        handleGuess={handleGuess}
+        setCommand={setCommand}
+        isGameWon={isGameWon}
             isGameLost={isGameLost}
-            isGameWon={isGameWon}
-            handleShareToClipboard={() =>
-              showSuccessAlert("Game copied to clipboard!")
-            }
-            handleShareFailure={() =>
-              showErrorAlert(
-                "Unable to share the results. This feature is available only in secure contexts (HTTPS), in some or all supporting browsers.",
-                { durationMs: 10000 },
-              )
-            }
-            numberOfGuessesMade={guesses.length}
-            isUnlimited={isUnlimited}
-            setIsUnlimited={() => setIsUnlimited(true)}
+      />
           />
           <AlertContainer />
         </div>
