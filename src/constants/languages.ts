@@ -1,3 +1,5 @@
+import { Language } from "lib/languages";
+
 export const LANGUAGES = [
   {
     name: "ActionScript",
@@ -158,6 +160,13 @@ export const LANGUAGES = [
     typed: "Dynamic",
   },
   {
+    name: "OCaml",
+    releaseYear: 1996,
+    compiled: true,
+    objectOriented: true,
+    typed: "Static",
+  },
+  {
     name: "Objective-C",
     releaseYear: 1984,
     compiled: true,
@@ -204,7 +213,7 @@ export const LANGUAGES = [
     name: "Scala",
     releaseYear: 2004,
     compiled: true,
-    objectOriented: "true & false",
+    objectOriented: true,
     typed: "Static",
   },
   {
@@ -230,4 +239,4 @@ export const LANGUAGES = [
     typed: "Static",
     aliases: ["vba"],
   },
-];
+] satisfies Language[];
