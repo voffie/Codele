@@ -1,3 +1,4 @@
+import { Header } from "./components/Header";
 import { useEffect, useState } from "react";
 import { Navbar } from "./components/Navbar/Navbar";
 import { FormProvider, useForm } from "react-hook-form";
@@ -156,122 +157,7 @@ const App = () => {
   };
 
   return (
-    <Div100vh>
-      <div className="flex h-full flex-col bg-black">
-        <Navbar
-          setIsInfoModalOpen={setIsInfoModalOpen}
-          setIsStatsModalOpen={setIsStatsModalOpen}
-        />
-        <div className="flex w-screen grow flex-col pb-8 pt-2 sm:px-6 lg:px-8 short:pb-2 short:pt-2">
-          <div className="flex grow flex-col gap-4 pb-6 pt-6 short:pb-2">
-            <FormProvider {...methods}>
-              <form onSubmit={onSubmit}>
-                <section className="flex gap-2">
-                  <h1>$ guest@codele.dev</h1>
-                  <div className="flex flex-wrap">
-                    <Combobox
-                      value={selectedLanguage}
-                      onChange={setSelectedLanguage}
-                      name="currentGuess"
-                    >
-                      <Combobox.Input
-                        aria-label="Guess field"
-                        autoFocus
-                        type="text"
-                        onChange={(event) => setQuery(event.target.value)}
-                        className="bg-transparent outline-none"
-                      />
-                      <Combobox.Options className="justfiy-start flex flex-wrap items-center gap-2 overflow-x-hidden rounded-md bg-transparent md:w-[calc(1326px-324px)]">
-                        {filteredLanguages.map((lang) => (
-                          <Combobox.Option
-                            key={lang.name}
-                            value={lang.name}
-                            className={({ active }) =>
-                              `h-6 text-[rgb(45,45,45)] ${
-                                active ? "text-white" : ""
-                              }`
-                            }
-                          >
-                            {lang.name}
-                          </Combobox.Option>
-                        ))}
-                      </Combobox.Options>
-                    </Combobox>
-                  </div>
-                </section>
-              </form>
-            </FormProvider>
-            {guesses.length && (
-              <table className="border-white-400 w-full self-center border text-center">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Release Year</th>
-                    <th>Compiled</th>
-                    <th>Object Oriented</th>
-                    <th className="hover-text">
-                      <p>Typed*</p>
-                      <span className="tooltip-text">
-                        <p>Static | Dynamic |</p>The most prominent one if both
-                        exist
-                      </span>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {guesses.map((guess, index) => (
-                    <tr key={index}>
-                      <td className={getClass(guess.name, "name")}>
-                        {guess.name}
-                      </td>
-                      <td className={getClass(guess.releaseYear, "year")}>
-                        {solution?.releaseYear &&
-                          guess.releaseYear < solution?.releaseYear && (
-                            <article>
-                              {guess.releaseYear}
-                              <AiOutlineArrowUp className="ml-4 inline" />
-                            </article>
-                          )}
-                        {solution?.releaseYear &&
-                          guess.releaseYear > solution?.releaseYear && (
-                            <article>
-                              {guess.releaseYear}
-                              <AiOutlineArrowDown className="ml-4 inline" />
-                            </article>
-                          )}
-                        {(guess.releaseYear === solution?.releaseYear ||
-                          guess.releaseYear === "No data" ||
-                          solution.releaseYear === "No data") &&
-                          guess.releaseYear}
-                      </td>
-                      <td className={getClass(guess.compiled, "compiled")}>
-                        {guess.compiled ? "True" : "False"}
-                      </td>
-                      <td className={getClass(guess.objectOriented, "object")}>
-                        {guess.objectOriented ? "True" : "False"}
-                      </td>
-                      <td className={getClass(guess.typed, "typed")}>
-                        {guess.typed}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
-            <p className="mt-6 text-center text-sm italic text-gray-300">
-              Made by{" "}
-              <a
-                href="https://github.com/voffie"
-                className="font-bold underline"
-                target="_blank"
-              >
-                Voffie
-              </a>
-            </p>
-          </div>
-          <InfoModal
-            isOpen={isInfoModalOpen}
-            handleClose={() => setIsInfoModalOpen(false)}
+      <Header />
           />
           <StatsModal
             isOpen={isStatsModalOpen}
