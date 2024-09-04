@@ -1,92 +1,18 @@
-import { UAParser } from "ua-parser-js";
+import { type Language, solution } from "./languages";
 
-import { getGuessStatuses } from "./statuses";
-import { Language } from "./languages";
-import { getToday } from "./dateutils";
+export function shareStatus(guesses: Language[]) {
+  if (!guesses) return;
 
-const webShareApiDeviceTypes: string[] = ["mobile", "smarttv", "wearable"];
-const parser = new UAParser();
-const browser = parser.getBrowser();
-const device = parser.getDevice();
-
-export const shareStatus = (
-  solution: Language,
-  guesses: Language[],
-  lost: boolean,
-  handleShareToClipboard: () => void,
-  handleShareFailure: () => void,
-  isUnlimited: boolean,
-) => {
-  const textToShare =
-    `Codele ${getToday().getDate()}/${
-      getToday().getMonth() + 1
-    } - ${getToday().getFullYear()} ${
-      isUnlimited ? "Unlimited" : lost ? 0 + "/5" : guesses.length + "/5"
-    }\n\n` + generateEmojiGrid(solution, guesses, getEmojiTiles());
-
-  const shareData = { text: textToShare };
-
-  let shareSuccess = false;
-
-  try {
-    if (attemptShare(shareData)) {
-      navigator.share(shareData);
-      shareSuccess = true;
-    }
-  } catch (error) {
-    shareSuccess = false;
-  }
-
-  try {
-    if (!shareSuccess) {
-      if (navigator.clipboard) {
-        navigator.clipboard
-          .writeText(textToShare)
-          .then(handleShareToClipboard)
-          .catch(handleShareFailure);
-      } else {
-        handleShareFailure();
-      }
-    }
-  } catch (error) {
-    handleShareFailure();
-  }
-};
-
-const generateEmojiGrid = (
-  solution: Language,
-  guesses: Language[],
-  tiles: string[],
-) => {
-  return guesses
-    .map((guess) => {
-      const status = getGuessStatuses(solution, guess);
-
-      return Object.keys(guess)
-        .map((_, i) => {
-          switch (status[i]) {
-            case "correct":
-              return tiles[0];
-            default:
-              return tiles[1];
-          }
-        })
-        .join("");
-    })
-    .join("\n");
-};
-
-const attemptShare = (shareData: object) => {
   return (
-    // Deliberately exclude Firefox Mobile, because its Web Share API isn't working correctly
-    browser.name?.toUpperCase().indexOf("FIREFOX") === -1 &&
-    webShareApiDeviceTypes.indexOf(device.type ?? "") !== -1 &&
-    navigator.canShare &&
-    navigator.canShare(shareData) &&
-    navigator.share
+    `Codele ${new Date(Date.now()).toLocaleDateString("en-GB")}\n` +
+    generateEmojiGrid(guesses).join("")
   );
-};
+}
 
-const getEmojiTiles = () => {
-  return ["🟩", "🟥"];
-};
+export function generateEmojiGrid(guesses: Language[]) {
+  const tiles = ["🟩", "🟥"];
+
+  return guesses.map((guess) => {
+    return guess.name === solution.name ? tiles[0] : tiles[1];
+  });
+}
