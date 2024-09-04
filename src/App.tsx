@@ -15,15 +15,8 @@ import {
   fetchGameFromLocalStorage,
   writeGameToLocalStorage,
 } from "./lib/localStorage";
-import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
-import { InfoModal } from "./components/Modals/InfoModal";
-import Div100vh from "react-div-100vh";
-import { AlertContainer } from "./components/Alerts/AlertContainer";
-import { useAlert } from "./context/AlertContext";
-import { generateStats, loadStats } from "./lib/stats";
-import { StatsModal } from "./components/Modals/StatsModal";
-import { Combobox } from "@headlessui/react";
-import { LANGUAGES } from "./constants/languages";
+import { Toaster } from "react-hot-toast";
+import { successToast, errorToast } from "./components/Alerts/Alert";
 
 const App = () => {
   const { showError: showErrorAlert, showSuccess: showSuccessAlert } =
@@ -78,18 +71,11 @@ const App = () => {
 
   useEffect(() => {
     if (isGameWon) {
-      const winMessages = ["Great Job!", "Awesome", "Well done!", "Congrats!"];
-      const winMessage =
-        winMessages[Math.floor(Math.random() * winMessages.length)];
-      showSuccessAlert(winMessage, {
-        onClose: () => setIsStatsModalOpen(true),
-      });
+      successToast("You did it!");
     }
 
     if (isGameLost) {
-      setTimeout(() => {
-        setIsStatsModalOpen(true);
-      }, 350);
+      errorToast("You failed!");
     }
   }, [isGameWon, isGameLost, showSuccessAlert]);
 
@@ -113,24 +99,24 @@ const App = () => {
     if (guesses.filter((guess) => guess.name === selectedLanguage).length === 1)
       return showErrorAlert(`Already guessed ${selectedLanguage}`);
 
-    if (!isLanguageInLanguageList(selectedLanguage)) {
-      return showErrorAlert("Language not found");
+    if (!language) {
+      return errorToast(`Unkown language: ${data}`);
     }
 
-    const winningLanguage = isWinningLanguage(selectedLanguage);
-    const data = getGuessData(selectedLanguage);
+    if (guesses.filter((guess) => guess.name === language.name).length === 1) {
+      return errorToast(`Already guessed ${language.name}`);
+    }
 
     setGuesses([...guesses, data!]);
     setSelectedLanguage("");
 
-    if (winningLanguage) {
-      if (!isUnlimited) setStats(generateStats(stats, guesses.length));
+    if (solution.name.toLowerCase() === language.name.toLowerCase()) {
+      successToast("You guessed the correct language!");
       return setIsGameWon(true);
     }
 
-    if (!isUnlimited && guesses.length === 4) {
-      setStats(generateStats(stats, guesses.length + 1));
-
+    if (guesses.length === 4) {
+      errorToast("You lost!");
       setIsGameLost(true);
       showErrorAlert("Game over");
     }
@@ -173,6 +159,10 @@ const App = () => {
         isGameWon={isGameWon}
             isGameLost={isGameLost}
       />
+      <Toaster
+        position="top-right"
+        toastOptions={{ className: "", duration: Infinity }}
+        gutter={15}
           />
           <AlertContainer />
         </div>
