@@ -1,5 +1,6 @@
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
+import { Terminal } from "./components/Terminal";
 import { useEffect, useState } from "react";
 import { Navbar } from "./components/Navbar/Navbar";
 import { FormProvider, useForm } from "react-hook-form";
@@ -159,6 +160,11 @@ const App = () => {
 
   return (
       <Header />
+      <Terminal
+        guesses={guesses}
+        currentCommand={command}
+        isGameWon={isGameWon}
+        isGameLost={isGameLost}
           />
       <Footer
             guesses={guesses}
