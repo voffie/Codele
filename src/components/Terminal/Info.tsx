@@ -8,7 +8,7 @@ export function Info() {
       </p>
       <p>
         Guesses are case INSENSITIVE and some languages have aliases which can
-        be viewed using the <strong>:languages</strong>
+        be viewed using the <strong>:languages</strong> command
       </p>
       <p>
         Starting guessing using the input down below & you can view all commands

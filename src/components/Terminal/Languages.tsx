@@ -6,7 +6,7 @@ export function Languages() {
       <h1 className="mb-4 font-bold uppercase">Languages</h1>
       <section className="grid auto-rows-auto grid-cols-4 gap-2">
         {LANGUAGES.map((language) => (
-          <p>
+          <p key={language.name}>
             {language.name} ({language.aliases ? language.aliases : "No alias"})
           </p>
         ))}

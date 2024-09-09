@@ -24,14 +24,10 @@ export function Footer({
     event.preventDefault();
     const isCommand = value.includes(":");
     const commands = value.split(" ");
-    if (isCommand && value.split(" ").length === 1) {
-      setCommand(value);
-    } else if (
-      isCommand &&
-      value.split(" ").length === 2 &&
-      isTheme(commands[1])
-    ) {
-      setTheme(commands[1]);
+    if (isCommand) {
+      if (value.split(" ").length === 1) setCommand(value);
+      if (value.split(" ").length === 2 && isTheme(commands[1]))
+        setTheme(commands[1]);
     } else {
       if (isGameWon || isGameLost) return;
       handleGuess(value);
@@ -43,9 +39,7 @@ export function Footer({
     <footer className="mt-auto pb-1">
       <aside className="flex justify-between bg-crust">
         <section className="flex">
-          <div className="bg-blue px-2">
-            <p className="font-bold uppercase text-crust">Normal</p>
-          </div>
+          <p className="bg-blue px-2 font-bold uppercase text-crust">Normal</p>
           <div className="flex items-center gap-2 bg-surface-0 px-2">
             <IoIosGitBranch className="text-blue" />
             <p className="text-blue">main</p>
@@ -67,9 +61,7 @@ export function Footer({
               <FaGithub className="text-blue" />
             </a>
           </div>
-          <div className="bg-blue pl-6 pr-2">
-            <p className="font-bold uppercase text-crust">{`${guesses.length}/5`}</p>
-          </div>
+          <p className="bg-blue px-2 font-bold uppercase text-crust md:pl-6">{`${guesses.length}/5`}</p>
         </section>
       </aside>
       <form onSubmit={handleSubmit}>
