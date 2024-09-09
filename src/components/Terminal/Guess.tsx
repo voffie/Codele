@@ -30,6 +30,17 @@ export function Guess({
           <tr>
             <th scope="col">Name</th>
             <th scope="col">
+              <div className="flex flex-col">
+                <p>Release Year</p>
+                <article className="flex items-center justify-center gap-2">
+                  <AiOutlineArrowDown className="inline" />
+                  <p>Younger</p>
+                </article>
+                <article className="flex items-center justify-center gap-2">
+                  <AiOutlineArrowUp className="inline" />
+                  <p>Older</p>
+                </article>
+              </div>
             </th>
             <th scope="col">Compiled</th>
             <th scope="col">Object Oriented</th>

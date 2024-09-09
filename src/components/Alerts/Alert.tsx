@@ -18,7 +18,9 @@ function Alert({
   }
 
   return (
-    <section className={"rounded-md border p-2 shadow-md" + getBorder(status)}>
+    <section
+      className={"rounded-md border bg-base p-2 shadow-md" + getBorder(status)}
+    >
       <article
         className={
           "flex w-full justify-between border-b py-1" + getBorder(status)
@@ -50,29 +52,25 @@ function Alert({
 export function successToast(message: string) {
   toast.custom(
     (t) => (
-      <>
-        <Alert
-          message={message}
-          status="success"
-          closeFunc={() => toast.remove(t.id)}
-        />
-      </>
+      <Alert
+        message={message}
+        status="success"
+        closeFunc={() => toast.remove(t.id)}
+      />
     ),
-    { id: "success" },
+    { id: "success", duration: 5000 },
   );
 }
 
 export function errorToast(message: string) {
   toast.custom(
     (t) => (
-      <>
-        <Alert
-          message={message}
-          status="error"
-          closeFunc={() => toast.remove(t.id)}
-        />
-      </>
+      <Alert
+        message={message}
+        status="error"
+        closeFunc={() => toast.remove(t.id)}
+      />
     ),
-    { id: "error" },
+    { id: "error", duration: 5000 },
   );
 }
