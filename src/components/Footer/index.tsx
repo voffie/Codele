@@ -36,10 +36,12 @@ export function Footer({
   }
 
   return (
-    <footer className="mt-auto pb-1">
+    <footer className="mt-4 pb-1 md:mt-0">
       <aside className="flex justify-between bg-crust">
         <section className="flex">
-          <p className="bg-blue px-2 font-bold uppercase text-crust">Normal</p>
+          <p className="bg-blue px-1 font-bold uppercase text-crust md:px-2">
+            Normal
+          </p>
           <div className="flex items-center gap-2 bg-surface-0 px-2">
             <IoIosGitBranch className="text-blue" />
             <p className="text-blue">main</p>
@@ -69,8 +71,7 @@ export function Footer({
           type="text"
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          className="cursor w-full bg-base caret-rosewater outline-0"
-          autoFocus
+          className="cursor w-full bg-base caret-rosewater outline-none"
         />
       </form>
     </footer>

@@ -24,16 +24,16 @@ export function Guess({
     }
   }
   return (
-    <section className="text-center">
-      <h1 className="mb-4 font-bold uppercase">Guesses</h1>
-      <table className="md:w-full">
+    <section className="overflow-x-auto text-center">
+      <table className="table-fixed md:w-full">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Release Year</th>
-            <th>Compiled</th>
-            <th>Object Oriented</th>
-            <th>Static/Dynamic</th>
+            <th scope="col">Name</th>
+            <th scope="col">
+            </th>
+            <th scope="col">Compiled</th>
+            <th scope="col">Object Oriented</th>
+            <th scope="col">Typing</th>
           </tr>
         </thead>
         <tbody>

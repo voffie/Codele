@@ -78,10 +78,7 @@ const App = () => {
   }
 
   return (
-    <main
-      className="flex flex-col overflow-hidden bg-base text-text"
-      style={{ height: window.innerHeight }}
-    >
+    <main className="flex min-h-[100dvh] flex-col overflow-hidden bg-base text-text">
       <Header />
       <Terminal
         guesses={guesses}
