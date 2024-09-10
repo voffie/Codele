@@ -1,6 +1,6 @@
 import { Language } from "lib/languages";
 
-export const LANGUAGES = [
+export const LANGUAGES: Language[] = [
   {
     name: "ActionScript",
     releaseYear: 1998,
@@ -239,4 +239,4 @@ export const LANGUAGES = [
     typed: "Static",
     aliases: ["vba"],
   },
-] satisfies Language[];
+];

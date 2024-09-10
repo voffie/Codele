@@ -1,15 +1,11 @@
 import { type Language, solution } from "../../lib/languages";
+import { normalizeCommand } from "../../lib/commands";
+import { COMMANDS } from "../../constants/commands";
 import { Info } from "./Info";
 import { Help } from "./Help";
 import { Languages } from "./Languages";
 import { Guess } from "./Guess";
 import { EndScreen } from "../EndScreen";
-
-export type Command = {
-  component: () => JSX.Element;
-  desc: string;
-  name: string;
-};
 
 export function Terminal({
   guesses,
@@ -22,37 +18,27 @@ export function Terminal({
   isGameWon: boolean;
   isGameLost: boolean;
 }) {
-  const commandMap: Record<string, Command> = {
-    info: {
-      component: () => <Info />,
-      desc: "Render info screen",
-      name: "info",
-    },
-    languages: {
-      component: () => <Languages />,
-      desc: "List all languages",
-      name: "languages",
-    },
-    guess: {
-      component: () => <Guess guesses={guesses} solution={solution} />,
-      desc: "Render guess screen",
-      name: "guess",
-    },
-  };
+  const normalizedCommand = normalizeCommand(currentCommand);
+  COMMANDS[0].component = () => <Guess guesses={guesses} solution={solution} />;
+  COMMANDS[1].component = () => <Help />;
+  COMMANDS[2].component = () => <Info />;
+  COMMANDS[3].component = () => <Languages />;
 
-  commandMap["help"] = {
-    component: () => <Help commands={commandMap} />,
-    desc: "Render help screen",
-    name: "help",
-  };
+  let Component = COMMANDS.find(
+    (command) => command.name.toLowerCase() === normalizedCommand,
+  )
+    ? () => <p>Unkown usage. Try ':help' for correct usage.</p>
+    : () => (
+        <p>Unkown command. Try ':help' for a list of available commands.</p>
+      );
 
-  const normalizedCommand = currentCommand.substring(1).trim().toLowerCase();
+  const filiteredCommands = COMMANDS.filter(
+    (command) => command.name.toLowerCase() === normalizedCommand,
+  );
 
-  const Component =
-    commandMap[normalizedCommand]?.component ||
-    (() => (
-      <p>Unknown command. Try ':help' for a list of available commands.</p>
-    ));
+  if (filiteredCommands.length === 1 && filiteredCommands[0].component) {
+    Component = filiteredCommands[0].component;
+  }
 
   return (
     <section className="flex-auto pt-4 md:pl-2">
