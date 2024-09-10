@@ -59,4 +59,11 @@ function getSolution(gameDate: Date) {
   };
 }
 
+export function closestLanguage(input: string) {
+  for (const term of LANGUAGES) {
+    if (term.name.toLowerCase().startsWith(input)) return term.name;
+  }
+  return "";
+}
+
 export const { solution, tomorrow } = getSolution(startOfToday());
