@@ -1,34 +1,25 @@
-import { Language } from "./languages";
+import { Theme } from "../context/ThemeContext";
+import type { Language } from "./languages";
 
 export type StoredState = {
   guesses: Language[];
   solution: Language;
-  isUnlimited: boolean;
 };
 
-export const writeGameToLocalStorage = (state: StoredState) => {
+export function writeGameToLocalStorage(state: StoredState) {
   localStorage.setItem("gameState", JSON.stringify(state));
-};
+}
 
-export const fetchGameFromLocalStorage = () => {
+export function fetchGameFromLocalStorage() {
   const currentState = localStorage.getItem("gameState");
   return currentState ? (JSON.parse(currentState) as StoredState) : null;
-};
+}
 
-export type GameStats = {
-  winDistribution: number[];
-  gamesFailed: number;
-  currentStreak: number;
-  bestStreak: number;
-  totalGames: number;
-  successRate: number;
-};
+export function writeThemeToLocalStorage(theme: Theme) {
+  localStorage.setItem("theme", JSON.stringify(theme));
+}
 
-export const writeStatsToLocalStorage = (gameStats: GameStats) => {
-  localStorage.setItem("gameStats", JSON.stringify(gameStats));
-};
-
-export const fetchStatsFromLocalStorage = () => {
-  const stats = localStorage.getItem("gameStats");
-  return stats ? (JSON.parse(stats) as GameStats) : null;
-};
+export function fetchThemeFromLocalStorage() {
+  const currentTheme = localStorage.getItem("theme");
+  return currentTheme ? JSON.parse(currentTheme) : null;
+}
