@@ -1,5 +1,5 @@
 import { generateEmojiGrid, shareStatus } from "../../lib/share";
-import { Language, tomorrow } from "../../lib/languages";
+import { type Language, tomorrow } from "../../lib/languages";
 import Countdown from "react-countdown";
 import { FaTwitter } from "react-icons/fa";
 

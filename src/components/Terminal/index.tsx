@@ -1,4 +1,4 @@
-import { type Language, solution } from "../../lib/languages";
+import { solution } from "../../lib/languages";
 import { normalizeCommand } from "../../lib/commands";
 import { COMMANDS } from "../../constants/commands";
 import { Info } from "./Info";
@@ -6,18 +6,11 @@ import { Help } from "./Help";
 import { Languages } from "./Languages";
 import { Guess } from "./Guess";
 import { EndScreen } from "../EndScreen";
+import { useContext } from "react";
+import { GuessContext } from "../../context/GuessContext";
 
-export function Terminal({
-  guesses,
-  currentCommand,
-  isGameWon,
-  isGameLost,
-}: {
-  guesses: Language[];
-  currentCommand: string;
-  isGameWon: boolean;
-  isGameLost: boolean;
-}) {
+export function Terminal({ currentCommand }: { currentCommand: string }) {
+  const { guesses, isGameWon, isGameLost } = useContext(GuessContext);
   const normalizedCommand = normalizeCommand(currentCommand);
   COMMANDS[0].component = () => <Guess guesses={guesses} solution={solution} />;
   COMMANDS[1].component = () => <Help />;

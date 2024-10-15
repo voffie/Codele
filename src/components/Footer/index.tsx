@@ -1,24 +1,19 @@
 import { useTheme, isTheme } from "../../context/ThemeContext";
-import { closestLanguage, type Language } from "../../lib/languages";
+import { closestLanguage } from "../../lib/languages";
 import { closestCommand, isCommand } from "../../lib/commands";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { IoIosGitBranch } from "react-icons/io";
 import { FaGithub } from "react-icons/fa";
 import type { ChangeEvent, KeyboardEvent, SyntheticEvent } from "react";
+import { GuessContext } from "../../context/GuessContext";
 
 export function Footer({
-  guesses,
-  isGameWon,
-  isGameLost,
-  handleGuess,
   setCommand,
 }: {
-  guesses: Language[];
-  isGameWon: boolean;
-  isGameLost: boolean;
-  handleGuess: (input: string) => void;
   setCommand: (input: string) => void;
 }) {
+  const { guesses, isGameWon, isGameLost, handleGuess } =
+    useContext(GuessContext);
   const [value, setValue] = useState("");
   const [suggestion, setSuggestion] = useState("");
   const { setTheme } = useTheme();
@@ -31,7 +26,7 @@ export function Footer({
       if (commands.length === 2 && isTheme(commands[1])) setTheme(commands[1]);
     } else {
       if (isGameWon || isGameLost) return;
-      handleGuess(value);
+      handleGuess!(value);
     }
     setValue("");
   }

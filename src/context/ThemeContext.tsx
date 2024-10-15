@@ -10,12 +10,12 @@ import {
   useState,
 } from "react";
 
-const ALL_THEMES = ["latte", "frappe", "macchiato", "mocha"] as const;
+const THEMES = ["latte", "frappe", "macchiato", "mocha"] as const;
 
-export type Theme = (typeof ALL_THEMES)[number];
+export type Theme = (typeof THEMES)[number];
 
 export function isTheme(value: string): value is Theme {
-  return ALL_THEMES.includes(value as Theme);
+  return THEMES.includes(value as Theme);
 }
 
 interface ThemeContextType {
@@ -25,9 +25,7 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-export const ThemeProvider: React.FC<{ children: ReactNode }> = ({
-  children,
-}) => {
+export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>(() => {
     const loaded = fetchThemeFromLocalStorage();
     if (!loaded) {
@@ -52,7 +50,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({
       {children}
     </ThemeContext.Provider>
   );
-};
+}
 
 export function useTheme() {
   const context = useContext(ThemeContext);
