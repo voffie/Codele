@@ -7,13 +7,11 @@ import { GuessContext } from "./context/GuessContext";
 
 const App = () => {
   const { guesses } = useContext(GuessContext);
-  const [command, setCommand] = useState("");
+  const [command, setCommand] = useState(":info");
 
   useEffect(() => {
-    if (command !== ":guess" && guesses.length > 0) {
+    if (guesses.length > 0) {
       setCommand(":guess");
-    } else {
-      setCommand(":info");
     }
   }, [guesses]);
 
