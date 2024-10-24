@@ -54,7 +54,7 @@ export const LANGUAGES: Language[] = [
   },
   {
     name: "Carbon",
-    releaseYear: "No data",
+    releaseYear: 2022,
     compiled: true,
     objectOriented: true,
     typed: "Static",

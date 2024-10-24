@@ -52,23 +52,19 @@ export function Guess({
             <tr key={index}>
               <td className={getClass(guess.name, "name")}>{guess.name}</td>
               <td className={getClass(guess.releaseYear, "year")}>
-                {solution?.releaseYear &&
-                  guess.releaseYear < solution?.releaseYear && (
-                    <article>
-                      {guess.releaseYear}
-                      <AiOutlineArrowUp className="ml-4 inline" />
-                    </article>
-                  )}
-                {solution?.releaseYear &&
-                  guess.releaseYear > solution?.releaseYear && (
-                    <article>
-                      {guess.releaseYear}
-                      <AiOutlineArrowDown className="ml-4 inline" />
-                    </article>
-                  )}
-                {(guess.releaseYear === solution?.releaseYear ||
-                  guess.releaseYear === "No data" ||
-                  solution.releaseYear === "No data") &&
+                {guess.releaseYear < solution?.releaseYear && (
+                  <article>
+                    {guess.releaseYear}
+                    <AiOutlineArrowUp className="ml-4 inline" />
+                  </article>
+                )}
+                {guess.releaseYear > solution?.releaseYear && (
+                  <article>
+                    {guess.releaseYear}
+                    <AiOutlineArrowDown className="ml-4 inline" />
+                  </article>
+                )}
+                {guess.releaseYear === solution?.releaseYear &&
                   guess.releaseYear}
               </td>
               <td className={getClass(guess.compiled, "compiled")}>
