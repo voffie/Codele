@@ -1,4 +1,4 @@
-import { addDays, differenceInDays, startOfDay, startOfToday } from "date-fns";
+import { addDays, startOfToday } from "date-fns";
 import { LANGUAGES } from "../constants/languages";
 
 export type Language = {
@@ -10,9 +10,6 @@ export type Language = {
   aliases?: string[];
 };
 
-const firstGameDate = new Date(2023, 0);
-const periodInDays = 1;
-
 export function getLanguageData(guess: string): Language | undefined {
   return LANGUAGES.find(
     (language) =>
@@ -21,38 +18,19 @@ export function getLanguageData(guess: string): Language | undefined {
   );
 }
 
-function getLastGameDate(today: Date) {
-  const t = startOfDay(today);
-  return addDays(t, -differenceInDays(firstGameDate, t) % periodInDays);
+function getLanguageOfTheDay() {
+  const currentDate = new Date().getTime();
+  const daysSinceEpoch =
+    Math.floor(currentDate / (1000 * 60 * 60 * 24)) % 10000;
+  const randomValue = (Math.sin(daysSinceEpoch) * 10000) % 1;
+  const index = Math.floor(randomValue * LANGUAGES.length);
+
+  return LANGUAGES[index];
 }
 
-function getNextGameDate(today: Date) {
-  return addDays(getLastGameDate(today), periodInDays);
-}
-
-function getIndex(gameDate: Date) {
-  let start = firstGameDate;
-  let index = -1;
-  do {
-    index++;
-    start = addDays(start, periodInDays);
-  } while (start <= gameDate);
-
-  return index;
-}
-
-function getLanguageOfTheDay(index: number) {
-  if (index < 0) {
-    throw new Error("Invalid index");
-  }
-
-  return LANGUAGES[index % LANGUAGES.length];
-}
-
-function getSolution(gameDate: Date) {
-  const nextGameDate = getNextGameDate(gameDate);
-  const index = getIndex(gameDate);
-  const languageOfTheDay = getLanguageOfTheDay(index);
+function getSolution() {
+  const nextGameDate = addDays(startOfToday(), 1);
+  const languageOfTheDay = getLanguageOfTheDay();
   return {
     solution: languageOfTheDay,
     tomorrow: nextGameDate.valueOf(),
@@ -66,4 +44,4 @@ export function closestLanguage(input: string) {
   return "";
 }
 
-export const { solution, tomorrow } = getSolution(startOfToday());
+export const { solution, tomorrow } = getSolution();
