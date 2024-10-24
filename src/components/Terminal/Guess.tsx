@@ -34,11 +34,11 @@ export function Guess({
                 <p>Release Year</p>
                 <article className="flex items-center justify-center gap-2">
                   <AiOutlineArrowDown className="inline" />
-                  <p>Younger</p>
+                  <p>{"guess > solution"}</p>
                 </article>
                 <article className="flex items-center justify-center gap-2">
                   <AiOutlineArrowUp className="inline" />
-                  <p>Older</p>
+                  <p>{"guess < solution"}</p>
                 </article>
               </div>
             </th>
