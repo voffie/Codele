@@ -1,3 +1,5 @@
+import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
+
 export function Info() {
   return (
     <section className="text-center">
@@ -6,14 +8,15 @@ export function Info() {
         Guess the language in 5 tries. After each guess, the color of the text
         will change depending on how close your guess was to the word.
       </p>
-      <p>
+      <p className="mb-2">
         Guesses are case INSENSITIVE and some languages have aliases which can
         be viewed using the <strong>:languages</strong> command
       </p>
-      <p>
-        Starting guessing using the input down below & you can view all commands
-        using the <strong>:help</strong> command!
+      <p className="mb-2">
+        You can view all commands and the legend using the{" "}
+        <strong>:help</strong> command!
       </p>
+      <p>Starting guessing using the input down below!</p>
       <section className="mt-4">
         <h2 className="font-bold uppercase">Color code</h2>
         <p>
@@ -24,6 +27,17 @@ export function Info() {
           <span className="text-red">Red</span> - Guess is not equal with
           solution
         </p>
+      </section>
+      <section className="mt-2">
+        <h2 className="font-bold uppercase">Icons</h2>
+        <article className="flex items-center justify-center gap-1">
+          <AiOutlineArrowUp />
+          <p>- Field is lower than the solution</p>
+        </article>
+        <article className="flex items-center justify-center gap-1">
+          <AiOutlineArrowDown />
+          <p>- Field is higher than the solution</p>
+        </article>
       </section>
     </section>
   );

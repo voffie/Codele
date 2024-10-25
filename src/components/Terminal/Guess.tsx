@@ -25,23 +25,14 @@ export function Guess({
   }
   return (
     <section className="overflow-x-auto text-center">
+      <p className="mb-2">
+        Use the <strong>:help</strong> command to view legend
+      </p>
       <table className="table-fixed md:w-full">
         <thead>
           <tr>
             <th scope="col">Name</th>
-            <th scope="col">
-              <div className="flex flex-col">
-                <p>Release Year</p>
-                <article className="flex items-center justify-center gap-2">
-                  <AiOutlineArrowDown className="inline" />
-                  <p>{"guess > solution"}</p>
-                </article>
-                <article className="flex items-center justify-center gap-2">
-                  <AiOutlineArrowUp className="inline" />
-                  <p>{"guess < solution"}</p>
-                </article>
-              </div>
-            </th>
+            <th scope="col">Release Year</th>
             <th scope="col">Compiled</th>
             <th scope="col">Object Oriented</th>
             <th scope="col">Typing</th>
