@@ -95,6 +95,7 @@ export function Footer({
       <form onSubmit={handleSubmit}>
         <input
           type="text"
+          placeholder="Input guesses here"
           value={value}
           onChange={(e) => handleChange(e)}
           onKeyDown={(e) => onKeyDown(e)}
