@@ -22,7 +22,7 @@ function getLanguageOfTheDay() {
   const currentDate = new Date().getTime();
   const daysSinceEpoch =
     Math.floor(currentDate / (1000 * 60 * 60 * 24)) % 10000;
-  const randomValue = (Math.sin(daysSinceEpoch) * 10000) % 1;
+  const randomValue = Math.abs(Math.sin(daysSinceEpoch));
   const index = Math.floor(randomValue * LANGUAGES.length);
 
   return LANGUAGES[index];
