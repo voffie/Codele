@@ -5,7 +5,7 @@ import { Info } from "./Info";
 import { Help } from "./Help";
 import { Languages } from "./Languages";
 import { Guess } from "./Guess";
-import { EndScreen } from "../EndScreen";
+import { Share } from "../Share";
 import { useContext } from "react";
 import { GuessContext } from "../../context/GuessContext";
 
@@ -36,7 +36,7 @@ export function Terminal({ currentCommand }: { currentCommand: string }) {
   return (
     <section className="flex-auto pt-4 md:pl-2">
       <Component />
-      {(isGameWon || isGameLost) && <EndScreen guesses={guesses} />}
+      {(isGameWon || isGameLost) && <Share guesses={guesses} />}
     </section>
   );
 }
