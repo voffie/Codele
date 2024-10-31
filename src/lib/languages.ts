@@ -1,7 +1,5 @@
-import { addDays, differenceInDays, startOfDay } from "date-fns";
-
+import { addDays, startOfToday } from "date-fns";
 import { LANGUAGES } from "../constants/languages";
-import { getToday } from "./dateutils";
 
 export type Language = {
   name: string;
@@ -9,67 +7,41 @@ export type Language = {
   compiled: boolean;
   objectOriented: boolean | string;
   typed: string;
+  aliases?: string[];
 };
 
-const firstGameDate = new Date(2023, 0);
-const periodInDays = 1;
-
-export const isLanguageInLanguageList = (language: string) => {
+export function getLanguageData(guess: string): Language | undefined {
   return LANGUAGES.find(
-    (item) => item.name.toLowerCase() === language.toLowerCase(),
-  )
-    ? true
-    : false;
-};
-
-export const isWinningLanguage = (language: string) => {
-  return solution.name.toLowerCase() === language.toLowerCase();
-};
-
-export const getGuessData = (guess: string) => {
-  return LANGUAGES.find(
-    (item) => item.name.toLowerCase() === guess.toLowerCase(),
+    (language) =>
+      language.name.toLowerCase() === guess.toLowerCase() ||
+      language.aliases?.includes(guess.toLowerCase()),
   );
-};
+}
 
-const getLastGameDate = (today: Date) => {
-  const t = startOfDay(today);
-  let daysSinceLastGame = differenceInDays(firstGameDate, t) % periodInDays;
-  return addDays(t, -daysSinceLastGame);
-};
+function getLanguageOfTheDay() {
+  const currentDate = new Date().getTime();
+  const daysSinceEpoch =
+    Math.floor(currentDate / (1000 * 60 * 60 * 24)) % 10000;
+  const randomValue = Math.abs(Math.sin(daysSinceEpoch));
+  const index = Math.floor(randomValue * LANGUAGES.length);
 
-const getNextGameDate = (today: Date) => {
-  return addDays(getLastGameDate(today), periodInDays);
-};
+  return LANGUAGES[index];
+}
 
-const getIndex = (gameDate: Date) => {
-  let start = firstGameDate;
-  let index = -1;
-  do {
-    index++;
-    start = addDays(start, periodInDays);
-  } while (start <= gameDate);
-
-  return index;
-};
-
-const getLanguageOfTheDay = (index: number) => {
-  if (index < 0) {
-    throw new Error("Invalid index");
-  }
-
-  return LANGUAGES[index % LANGUAGES.length];
-};
-
-const getSolution = (gameDate: Date) => {
-  const nextGameDate = getNextGameDate(gameDate);
-  const index = getIndex(gameDate);
-  const languageOfTheDay = getLanguageOfTheDay(index);
+function getSolution() {
+  const nextGameDate = addDays(startOfToday(), 1);
+  const languageOfTheDay = getLanguageOfTheDay();
   return {
     solution: languageOfTheDay,
-    solutionGameDate: gameDate,
     tomorrow: nextGameDate.valueOf(),
   };
-};
+}
 
-export const { solution, solutionGameDate, tomorrow } = getSolution(getToday());
+export function closestLanguage(input: string) {
+  for (const term of LANGUAGES) {
+    if (term.name.toLowerCase().startsWith(input)) return term.name;
+  }
+  return "";
+}
+
+export const { solution, tomorrow } = getSolution();
