@@ -6,7 +6,7 @@
   <p align="center">
     A daily guessing game
     <br />
-    <a href="https://codele-voffiee.vercel.app/"><strong>https://codele-voffiee.vercel.app/ »</strong></a>
+    <a href="https://codele-voffiee.vercel.app/"><strong>https://codele-voffiee.vercel.app/</strong></a>
     <br />
     <br />
     <strong>Built with</strong>
@@ -19,9 +19,4 @@
   </p>
 </p>
 
-Codele is a website where your goal is to guess the programming language of the day. It is inspired by [Wordle](https://www.nytimes.com/games/wordle/index.html) as well as [LoLdle](https://loldle.net/) & [Gamedle](https://www.gamedle.wtf/)
-
-<p align="center">
-  <img src="public/images/initial.png" alt="Initial layout" >
-  <img src="public/images/guesses.png" alt="Layout after guessing" >
-</p>
+Codele is inspired by [Wordle](https://www.nytimes.com/games/wordle/index.html), [LoLdle](https://loldle.net/) & [Gamedle](https://www.gamedle.wtf/). The main goal is to guess the programming language of the day!
