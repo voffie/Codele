@@ -1,5 +1,5 @@
 name: Language proposal
-about: Propose a language to be added
+description: Propose a language to be added
 title: "[LANGUAGE]: [LANGUAGE NAME]"
 labels: language
 assignees: voffie
@@ -28,16 +28,16 @@ body:
     attributes:
       label: Compiled
       options:
-        - Yes
-        - No
+        - "Yes"
+        - "No"
     validations:
       required: true
   - type: dropdown
     attributes:
       label: Object Oriented
       options:
-        - Yes
-        - No
+        - "Yes"
+        - "No"
     validations:
       required: true
   - type: dropdown
