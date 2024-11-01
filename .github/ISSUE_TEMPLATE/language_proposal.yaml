@@ -54,12 +54,9 @@ body:
       placeholder: "JS, TS, C++, etc."
     validations:
       required: false
-  - type: markdown
-    attributes:
-      value: |
-        Please provide valid sources
   - type: textarea
     attributes:
       label: Sources
+      placeholder: Please provide a list of the sources used
     validations:
       required: true
