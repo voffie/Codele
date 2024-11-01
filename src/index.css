@@ -7,50 +7,5 @@ html {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-.terminal {
   font-family: Hack, monospace;
-}
-
-p,
-h1,
-h2,
-h3,
-table,
-input {
-  color: white;
-}
-
-.hover-text {
-  position: relative;
-  display: inline-block;
-  text-align: center;
-}
-
-.tooltip-text {
-  display: none;
-  position: absolute;
-  top: -65px;
-  left: -125px;
-  padding: 5px;
-  background-color: #192733;
-  border: 1px solid white;
-  width: max-content;
-}
-
-.button-tooltip-text {
-  display: none;
-  position: absolute;
-  top: -125px;
-  left: 0px;
-  padding: 5px;
-  width: 160px;
-  background-color: #192733;
-  border: 1px solid white;
-}
-
-.hover-text:hover .tooltip-text,
-.hover-text:hover .button-tooltip-text {
-  display: block;
 }

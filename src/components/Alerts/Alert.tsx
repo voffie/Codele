@@ -1,37 +1,76 @@
-import { Transition } from "@headlessui/react";
-import { twMerge } from "tailwind-merge";
-import { Fragment } from "react";
+import { RxCheck, RxCross2 } from "react-icons/rx";
+import { IoInformation } from "react-icons/io5";
+import toast from "react-hot-toast";
 
-type AlertProps = {
-  isOpen: boolean;
+function Alert({
+  message,
+  status,
+  closeFunc,
+}: {
   message: string;
-  variant?: "success" | "error";
-  topMost?: boolean;
-};
-
-export const Alert = ({ isOpen, message, variant, topMost }: AlertProps) => {
-  const classes = twMerge(
-    "fixed z-20 top-14 left-1/2 transform -translate-x-1/2 max-w-sm shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden",
-    variant === "error" ? "bg-rose-500 text-white" : "",
-    variant === "success" ? "bg-green-500 text-white" : "",
-  );
+  status: string;
+  closeFunc: () => void;
+}) {
+  function getBorder(type: string) {
+    if (type === "error") return " border-red";
+    if (type === "success") return " border-green";
+    if (type === "system") return " border-blue";
+  }
 
   return (
-    <Transition
-      show={isOpen}
-      as={Fragment}
-      enter="ease-out duration-300 transition"
-      enterFrom="opacity-0"
-      enterTo="opacity-100"
-      leave="transition ease-in duration-100"
-      leaveFrom="opacity-100"
-      leaveTo="opacity-0"
+    <section
+      className={"rounded-md border bg-base p-2 shadow-md" + getBorder(status)}
     >
-      <div className={classes}>
-        <div className="p-2">
-          <p className="text-center text-sm font-medium">{message}</p>
-        </div>
-      </div>
-    </Transition>
+      <article
+        className={
+          "flex w-full justify-between border-b py-1" + getBorder(status)
+        }
+      >
+        <aside className="flex items-center gap-2">
+          {status === "error" && (
+            <RxCross2 className="rounded-md bg-red text-black" />
+          )}
+          {status === "success" && (
+            <RxCheck className="rounded-md bg-green text-black" />
+          )}
+          {status === "system" && (
+            <IoInformation className="rounded-md bg-blue text-black" />
+          )}
+          {status.charAt(0).toUpperCase() + status.substring(1)}
+        </aside>
+        <button onClick={closeFunc}>
+          <RxCross2 />
+        </button>
+      </article>
+      <article className="w-full py-1">
+        <p>{message}</p>
+      </article>
+    </section>
   );
-};
+}
+
+export function successToast(message: string) {
+  toast.custom(
+    (t) => (
+      <Alert
+        message={message}
+        status="success"
+        closeFunc={() => toast.remove(t.id)}
+      />
+    ),
+    { id: "success", duration: 5000 },
+  );
+}
+
+export function errorToast(message: string) {
+  toast.custom(
+    (t) => (
+      <Alert
+        message={message}
+        status="error"
+        closeFunc={() => toast.remove(t.id)}
+      />
+    ),
+    { id: "error", duration: 5000 },
+  );
+}

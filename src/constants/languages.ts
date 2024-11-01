@@ -1,4 +1,6 @@
-export const LANGUAGES = [
+import { Language } from "lib/languages";
+
+export const LANGUAGES: Language[] = [
   {
     name: "ActionScript",
     releaseYear: 1998,
@@ -52,7 +54,7 @@ export const LANGUAGES = [
   },
   {
     name: "Carbon",
-    releaseYear: "No data",
+    releaseYear: 2022,
     compiled: true,
     objectOriented: true,
     typed: "Static",
@@ -158,6 +160,13 @@ export const LANGUAGES = [
     typed: "Dynamic",
   },
   {
+    name: "OCaml",
+    releaseYear: 1996,
+    compiled: true,
+    objectOriented: true,
+    typed: "Static",
+  },
+  {
     name: "Objective-C",
     releaseYear: 1984,
     compiled: true,
@@ -204,7 +213,7 @@ export const LANGUAGES = [
     name: "Scala",
     releaseYear: 2004,
     compiled: true,
-    objectOriented: "true & false",
+    objectOriented: true,
     typed: "Static",
   },
   {
