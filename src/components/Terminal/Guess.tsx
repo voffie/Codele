@@ -1,13 +1,10 @@
-import type { Language } from "../../lib/languages";
 import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
+import { Share } from "../Share";
+import { useContext } from "react";
+import { GuessContext } from "../../context/GuessContext";
 
-export function Guess({
-  guesses,
-  solution,
-}: {
-  guesses: Language[];
-  solution: Language;
-}) {
+export function Guess() {
+  const { guesses, solution, isGameWon, isGameLost } = useContext(GuessContext);
   function getClass(guess: string | number | boolean, type: string) {
     switch (type) {
       case "name":
@@ -69,6 +66,9 @@ export function Guess({
           ))}
         </tbody>
       </table>
+      {(isGameWon || isGameLost) && (
+        <Share guesses={guesses} solution={solution} />
+      )}
     </section>
   );
 }
