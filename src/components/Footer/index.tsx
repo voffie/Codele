@@ -20,13 +20,14 @@ export function Footer({
 
   function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (isCommand(value)) {
-      const commands = value.split(" ");
-      if (commands.length === 1) setCommand(value);
+    const normalizedValue = value.toLowerCase();
+    if (isCommand(normalizedValue)) {
+      const commands = normalizedValue.split(" ");
+      if (commands.length === 1) setCommand(normalizedValue);
       if (commands.length === 2 && isTheme(commands[1])) setTheme(commands[1]);
     } else {
       if (isGameWon || isGameLost) return;
-      handleGuess!(value);
+      handleGuess!(normalizedValue);
     }
     setSuggestion("");
     setValue("");
@@ -52,13 +53,20 @@ export function Footer({
       return;
     }
 
-    const firstCharCode = isInputCommand ? 1 : 0;
+    let caseFixedSuggestion = "";
+    for (let i = 0; i < targetValue.length; i++) {
+      const char = targetValue[i];
 
-    // Every character of a string is represented by a unique number using UTF-16 character encoding. For English capital letters: A = 65 and Z = 90.
-    targetValue.charCodeAt(firstCharCode) >= 65 &&
-    targetValue.charCodeAt(firstCharCode) <= 90
-      ? setSuggestion(currentSuggestion)
-      : setSuggestion(currentSuggestion.toLowerCase());
+      if (char === char.toUpperCase()) {
+        caseFixedSuggestion += currentSuggestion[i].toUpperCase();
+      } else {
+        caseFixedSuggestion += currentSuggestion[i].toLowerCase();
+      }
+    }
+
+    setSuggestion(
+      caseFixedSuggestion + currentSuggestion.substring(targetValue.length),
+    );
   }
 
   function onKeyDown(event: KeyboardEvent<HTMLInputElement>) {
