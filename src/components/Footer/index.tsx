@@ -28,6 +28,7 @@ export function Footer({
       if (isGameWon || isGameLost) return;
       handleGuess!(value);
     }
+    setSuggestion("");
     setValue("");
   }
 
@@ -35,12 +36,18 @@ export function Footer({
     event.preventDefault();
     setValue(event.target.value);
     const targetValue = event.target.value;
+
+    if (targetValue === "") {
+      setSuggestion("");
+      return;
+    }
+
     const isInputCommand = isCommand(targetValue);
     const currentSuggestion = isInputCommand
       ? closestCommand(targetValue.toLowerCase())
       : closestLanguage(targetValue.toLowerCase());
 
-    if (targetValue === "" || currentSuggestion === "") {
+    if (currentSuggestion === "") {
       setSuggestion("");
       return;
     }

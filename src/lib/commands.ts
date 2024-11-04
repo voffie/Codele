@@ -10,10 +10,7 @@ export type Command = {
 export function closestCommand(input: string) {
   const normalizedCommand = normalizeCommand(input);
   for (const term of COMMANDS) {
-    if (
-      normalizedCommand[0] !== "" &&
-      term.name.toLowerCase().startsWith(normalizedCommand[0])
-    ) {
+    if (term.name.toLowerCase().startsWith(normalizedCommand[0])) {
       if (term.name === "Theme") {
         return `:${term.name} ${closestParameter(normalizedCommand[1])}`;
       } else return `:${term.name}`;
@@ -23,9 +20,9 @@ export function closestCommand(input: string) {
   return "";
 }
 
-function closestParameter(command: string) {
+function closestParameter(param: string) {
   for (const parameter of COMMANDS[4].parameters!) {
-    if (parameter.toLowerCase().startsWith(command)) return parameter;
+    if (parameter.toLowerCase().startsWith(param)) return parameter;
   }
 
   return "";
@@ -36,10 +33,6 @@ export function isCommand(text: string) {
 }
 
 export function normalizeCommand(command: string) {
-  return command.includes(" ")
-    ? command
-        .substring(1)
-        .split(" ")
-        .map((part) => part.trim().toLowerCase())
-    : command.substring(1).trim().toLowerCase();
+  const trimmedCommand = command.substring(1);
+  return trimmedCommand.split(" ").map((part) => part.trim().toLowerCase());
 }
