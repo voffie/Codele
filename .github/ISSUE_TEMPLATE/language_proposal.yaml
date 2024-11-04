@@ -1,0 +1,62 @@
+name: Language proposal
+description: Propose a language to be added
+title: "[LANGUAGE]: [LANGUAGE NAME]"
+labels: language
+assignees: voffie
+body:
+  - type: checkboxes
+    attributes:
+      label: Prerequisites
+      options:
+        - label: The language proposal has not already been filed
+          required: true
+  - type: markdown
+    attributes:
+      value: |
+        Please fill out the sections below with relevant information
+  - type: input
+    attributes:
+      label: Language name
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Release year
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: Compiled
+      options:
+        - "Yes"
+        - "No"
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: Object Oriented
+      options:
+        - "Yes"
+        - "No"
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: Typing
+      options:
+        - Static
+        - Dynamic
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Aliases
+      placeholder: "JS, TS, C++, etc."
+    validations:
+      required: false
+  - type: textarea
+    attributes:
+      label: Sources
+      placeholder: Please provide a list of the sources used
+    validations:
+      required: true
