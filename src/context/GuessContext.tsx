@@ -10,6 +10,7 @@ interface GuessContextType {
   guesses: Language[];
   isGameWon: boolean;
   isGameLost: boolean;
+  solution: Language;
   handleGuess?: (input: string) => void;
 }
 
@@ -17,6 +18,7 @@ export const GuessContext = createContext<GuessContextType>({
   guesses: [] as Language[],
   isGameWon: false,
   isGameLost: false,
+  solution: solution,
 });
 
 export function GuessProvider({ children }: { children: ReactNode }) {
@@ -86,7 +88,7 @@ export function GuessProvider({ children }: { children: ReactNode }) {
 
   return (
     <GuessContext.Provider
-      value={{ guesses, isGameWon, isGameLost, handleGuess }}
+      value={{ guesses, isGameWon, isGameLost, handleGuess, solution }}
     >
       {children}
     </GuessContext.Provider>
