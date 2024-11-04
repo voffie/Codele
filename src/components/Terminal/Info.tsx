@@ -6,7 +6,7 @@ export function Info() {
       <h1 className="mb-4 font-bold uppercase">How to play</h1>
       <p className="mb-2">
         Guess the language in 5 tries. After each guess, the color of the text
-        will change depending on how close your guess was to the word.
+        will change depending on how close your guess was to the solution.
       </p>
       <p className="mb-2">
         Guesses are case INSENSITIVE and some languages have aliases which can
