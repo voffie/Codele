@@ -45,6 +45,7 @@ export function Footer({
       currentSuggestion === ""
     ) {
       setSuggestion("");
+      return;
     }
 
     // Every character of a string is represented by a unique number using UTF-16 character encoding. For English capital letters: A = 65 and Z = 90.
