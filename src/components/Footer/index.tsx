@@ -35,20 +35,21 @@ export function Footer({
     event.preventDefault();
     setValue(event.target.value);
     const targetValue = event.target.value;
-    const currentSuggestion = isCommand(targetValue)
+    const isInputCommand = isCommand(targetValue);
+    const currentSuggestion = isInputCommand
       ? closestCommand(targetValue.toLowerCase())
       : closestLanguage(targetValue.toLowerCase());
 
-    if (
-      targetValue === "" ||
-      targetValue === currentSuggestion ||
-      currentSuggestion === ""
-    ) {
+    if (targetValue === "" || currentSuggestion === "") {
       setSuggestion("");
+      return;
     }
 
+    const firstCharCode = isInputCommand ? 1 : 0;
+
     // Every character of a string is represented by a unique number using UTF-16 character encoding. For English capital letters: A = 65 and Z = 90.
-    targetValue.charCodeAt(0) >= 65 && targetValue.charCodeAt(0) <= 90
+    targetValue.charCodeAt(firstCharCode) >= 65 &&
+    targetValue.charCodeAt(firstCharCode) <= 90
       ? setSuggestion(currentSuggestion)
       : setSuggestion(currentSuggestion.toLowerCase());
   }
