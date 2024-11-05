@@ -99,6 +99,7 @@ export function Footer({
               href="https://github.com/voffie"
               className="font-bold text-blue underline"
               target="_blank"
+              aria-label="View Voffie's GitHub profile"
             >
               Voffie
             </a>
@@ -106,7 +107,11 @@ export function Footer({
         </section>
         <section className="flex">
           <div className="flex items-center gap-2 bg-surface-0 px-2">
-            <a href="https://github.com/voffie/codele" target="_blank">
+            <a
+              href="https://github.com/voffie/codele"
+              target="_blank"
+              aria-label="View the source code on GitHub"
+            >
               <FaGithub className="text-blue" />
             </a>
           </div>
