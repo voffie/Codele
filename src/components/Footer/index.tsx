@@ -57,6 +57,11 @@ export function Footer({
     for (let i = 0; i < targetValue.length; i++) {
       const char = targetValue[i];
 
+      if (currentSuggestion[i] === undefined) {
+        caseFixedSuggestion += char;
+        continue;
+      }
+
       if (char === char.toUpperCase()) {
         caseFixedSuggestion += currentSuggestion[i].toUpperCase();
       } else {
