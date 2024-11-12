@@ -67,6 +67,13 @@ export const LANGUAGES: Language[] = [
     typed: "Dynamic",
   },
   {
+    name: "Cobol",
+    releaseYear: 1959,
+    compiled: true,
+    objectOriented: true,
+    typed: "Static",
+  },
+  {
     name: "Dart",
     releaseYear: 2011,
     compiled: true,
@@ -100,6 +107,13 @@ export const LANGUAGES: Language[] = [
     releaseYear: 1957,
     compiled: true,
     objectOriented: true,
+    typed: "Static",
+  },
+  {
+    name: "Gleam",
+    releaseYear: 2016,
+    compiled: true,
+    objectOriented: false,
     typed: "Static",
   },
   {
@@ -160,15 +174,15 @@ export const LANGUAGES: Language[] = [
     typed: "Dynamic",
   },
   {
-    name: "OCaml",
-    releaseYear: 1996,
+    name: "Objective-C",
+    releaseYear: 1984,
     compiled: true,
     objectOriented: true,
     typed: "Static",
   },
   {
-    name: "Objective-C",
-    releaseYear: 1984,
+    name: "OCaml",
+    releaseYear: 1996,
     compiled: true,
     objectOriented: true,
     typed: "Static",
@@ -193,6 +207,20 @@ export const LANGUAGES: Language[] = [
     compiled: false,
     objectOriented: true,
     typed: "Dynamic",
+  },
+  {
+    name: "ReasonML",
+    releaseYear: 2016,
+    compiled: true,
+    objectOriented: false,
+    typed: "Static",
+  },
+  {
+    name: "Rescript",
+    releaseYear: 2017,
+    compiled: true,
+    objectOriented: false,
+    typed: "Static",
   },
   {
     name: "Ruby",
