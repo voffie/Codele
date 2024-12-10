@@ -38,11 +38,11 @@ export function Help() {
           <p className="font-bold uppercase">Icons</p>
           <article className="flex items-center justify-center gap-1">
             <AiOutlineArrowUp />
-            <p>- Field is lower than the solution</p>
+            <p>- Guess is older compared to solution</p>
           </article>
           <article className="flex items-center justify-center gap-1">
             <AiOutlineArrowDown />
-            <p>- Field is higher than the solution</p>
+            <p>- Guess is younger compared to solution</p>
           </article>
         </section>
       </section>
