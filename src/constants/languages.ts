@@ -97,7 +97,7 @@ export const LANGUAGES: Language[] = [
   {
     name: "F#",
     releaseYear: 2005,
-    compiled: false,
+    compiled: true,
     objectOriented: false,
     typed: "Static",
     aliases: ["fsharp"],
