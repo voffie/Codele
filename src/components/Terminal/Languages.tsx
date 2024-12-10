@@ -7,7 +7,7 @@ export function Languages() {
       <section className="grid auto-rows-auto grid-cols-3 gap-2 p-2">
         {LANGUAGES.map((language) => (
           <p key={language.name}>
-            {language.name} ({language.aliases ? language.aliases : "No alias"})
+            {language.name} {language.aliases ? `(${language.aliases})` : ""}
           </p>
         ))}
       </section>
